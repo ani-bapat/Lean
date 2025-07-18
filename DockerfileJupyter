@@ -31,7 +31,8 @@ RUN dotnet tool install -g --no-cache --version 1.0.607001 --add-source "https:/
 
 # Setting some environment variables
 ENV WORK /Lean/Launcher/bin/Debug/
-ENV PYTHONPATH=${WORK}:${PYTHONPATH}
+ENV APP /app
+ENV PYTHONPATH=${WORK}:${APP}${PYTHONPATH}
 
 # Link Python startup file to profile
 RUN mkdir -p /root/.ipython/profile_default/startup/ && \
@@ -49,11 +50,18 @@ RUN echo "if [ ! -d \"${WORK}Notebooks\" ]; then mkdir ${WORK}Notebooks; fi && \
     jupyter lab --ip='0.0.0.0' --port=8888 --no-browser --allow-root --notebook-dir=\"Notebooks\" --LabApp.token='' " \
     > start.sh
 
+# Install kohinoor
+COPY . /app/kohinoor
+
+# Can override with '-w'
+RUN pip install -e /app/kohinoor
+
 RUN echo "{\"argv\":[\"dotnet\",\"interactive\",\"jupyter\",\"--default-kernel\",\"csharp\",\"{connection_file}\",\"--http-port-range\",\"1000-3000\"],\"display_name\":\"Foundation-C#-Default\",\"language\":\"C#\",\"metadata\":{\"vscode\":{\"extension_id\":\"ms-dotnettools.dotnet-interactive-vscode\",\"kernel_id\":\"dotnet-interactive\"}}}" > /root/.local/share/jupyter/kernels/.net-csharp/kernel.json
 
 RUN chmod -R 777 ${WORK}
 EXPOSE 8888
 WORKDIR $WORK
+
 
 ENTRYPOINT [ "/usr/local/bin/tini", "--" ]
 CMD ./start.sh

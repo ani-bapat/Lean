@@ -21,7 +21,13 @@ COPY ./Lean/Optimizer.Launcher/bin/Debug/ /Lean/Optimizer.Launcher/bin/Debug/
 COPY ./Lean/Report/bin/Debug/ /Lean/Report/bin/Debug/
 COPY ./Lean/DownloaderDataProvider/bin/Debug/ /Lean/DownloaderDataProvider/bin/Debug/
 
+# Install kohinoor
+COPY . /app/kohinoor
+
 # Can override with '-w'
+WORKDIR /app/kohinoor
+RUN ls -la . && cat pyproject.toml
+RUN pip install -e .
 WORKDIR /Lean/Launcher/bin/Debug
 
 ENTRYPOINT [ "dotnet", "QuantConnect.Lean.Launcher.dll" ]
