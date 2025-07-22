@@ -23,11 +23,15 @@ COPY ./Lean/DownloaderDataProvider/bin/Debug/ /Lean/DownloaderDataProvider/bin/D
 
 # Install kohinoor
 COPY . /app/kohinoor
+ENV PYTHONPATH=/app:${PYTHONPATH}
 
 # Can override with '-w'
-WORKDIR /app/kohinoor
-RUN ls -la . && cat pyproject.toml
-RUN pip install -e .
+# WORKDIR /app/kohinoor
+# RUN pip install --no-cache-dir -e .
 WORKDIR /Lean/Launcher/bin/Debug
+# Create initialize script
+RUN echo "pip install --no-cache-dir -e /app/kohinoor/" > start.sh
 
 ENTRYPOINT [ "dotnet", "QuantConnect.Lean.Launcher.dll" ]
+RUN chmod +x start.sh
+CMD [ "./start.sh" ]
