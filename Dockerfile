@@ -30,8 +30,12 @@ ENV PYTHONPATH=/app:${PYTHONPATH}
 # RUN pip install --no-cache-dir -e .
 WORKDIR /Lean/Launcher/bin/Debug
 # Create initialize script
-RUN echo "pip install --no-cache-dir -e /app/kohinoor/" > start.sh
+RUN pip install --no-cache-dir -e /app/kohinoor/
 
-ENTRYPOINT [ "dotnet", "QuantConnect.Lean.Launcher.dll" ]
-RUN chmod +x start.sh
-CMD [ "./start.sh" ]
+ENTRYPOINT ["dotnet", "QuantConnect.Lean.Launcher.dll"]
+
+# RUN echo "pip install --no-cache-dir -e /app/kohinoor/" > start.sh
+
+# ENTRYPOINT [ "dotnet", "QuantConnect.Lean.Launcher.dll" ]
+# RUN chmod +x start.sh
+# CMD [ "./start.sh" ]
