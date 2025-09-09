@@ -1,0 +1,31 @@
+<!-- File: YourTeam.Options/YourTeam.Options.csproj -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reference LEAN projects -->
+    <ProjectReference Include="..\Common\QuantConnect.csproj" />
+    <ProjectReference Include="..\Engine\QuantConnect.Lean.Engine.csproj" />
+    <ProjectReference Include="..\Indicators\QuantConnect.Indicators.csproj" />
+    
+    <!-- NuGet packages -->
+    <PackageReference Include="Google.Protobuf" Version="3.24.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.57.0" />
+    
+    <!-- For Iceberg integration -->
+    <PackageReference Include="Apache.Arrow" Version="13.0.0" />
+    <PackageReference Include="Parquet.Net" Version="4.6.0" />
+    <!-- Add query engine client (Trino/Spark/etc) -->
+  </ItemGroup>
+
+  <ItemGroup>
+  <Protobuf Include="Protos\*.proto" GrpcServices="Client" />
+</ItemGroup>
+
+<Target Name="GenerateProtos" BeforeTargets="Build">
+  <Exec Command="protoc --csharp_out=Protos/Generated --proto_path=Protos theo.proto" />
+</Target>
+</Project>

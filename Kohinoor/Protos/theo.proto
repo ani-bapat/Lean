@@ -1,0 +1,35 @@
+syntax = "proto3";
+ 
+package ma.theoengine.proto;
+ 
+ 
+message OptionTheo {
+  uint32 seq_num = 1 ;
+  uint64 send_time = 2;  // machine send_time
+  uint64 framework_time = 3;  // framework_time
+  uint64 call_instrument_id = 4;
+  uint64 put_instrument_id = 5;
+  double strike = 6;
+  double forward = 7;
+  double discount = 8;
+  double bid_price_call = 9;
+  int64 bid_quantity_call = 10;  // Assuming qty_t is int64
+  double ask_price_call = 11;
+  int64 ask_quantity_call = 12;
+  double est_price_call = 13;
+  double bid_price_put = 14;
+  int64 bid_quantity_put = 15;
+  double ask_price_put = 16;
+  int64 ask_quantity_put = 17;
+  double est_price_put = 18;
+  uint64 expiration = 19;  // Assuming epoch_ns_t is uint64
+  double vol = 20;
+  double z = 21;
+  double vega = 22;
+  double oom_spread = 23;
+  double fit_vol = 24;
+  double fit_price_call = 25;
+  double fit_price_put = 26;
+  double fit_delta_call = 27;
+  double fit_delta_put = 28;
+}
