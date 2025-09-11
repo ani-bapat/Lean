@@ -8,13 +8,17 @@ using QuantConnect.Interfaces;
 namespace Kohinoor.Data
 {
     // Consolidator for TheoBar to create time-based bars
-    public class TheoBarConsolidator(TimeSpan period) : DataConsolidator<TheoBar>(period), DataConsolidator<TheoBar>
+    public class TheoBarConsolidator(TimeSpan period) : DataConsolidator<TheoBar>(period)
     {
         private readonly TimeSpan _period = period;
         private TheoBar _workingBar;
         private DateTime _nextBarTime;
 
-        protected override void Update(TheoBar data)
+        public override Type OutputType => typeof(TheoBar);
+        
+        public override IBaseData WorkingData => _workingBar;
+
+        public override void Update(TheoBar data)
         {
             if (_workingBar == null)
             {
@@ -34,7 +38,16 @@ namespace Kohinoor.Data
                 UpdateWorkingBar(data);
             }
         }
-        
+
+        public override void Scan(DateTime currentLocalTime)
+        {
+            if (_workingBar != null && currentLocalTime >= _nextBarTime)
+            {
+                OnDataConsolidated(_workingBar);
+                _workingBar = null;
+            }
+        }       
+
         private void StartNewBar(TheoBar theoBar)
         {
             _workingBar = new TheoBar(
