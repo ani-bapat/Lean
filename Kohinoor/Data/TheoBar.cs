@@ -1,3 +1,9 @@
+using QuantConnect;
+using QuantConnect.Data;
+using QuantConnect.Data.Market;
+using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Interfaces;
+
 public class TheoBar : QuoteBar
 {
     // Standard QuoteBar contains Bid/Ask OHLC data
@@ -71,14 +77,4 @@ public class TheoBar : QuoteBar
         // TODO: Implement Iceberg data source
     }
 
-}
-
-// Enhanced Greeks structure for your use case
-public class EnhancedGreeks(decimal delta, decimal gamma, decimal vega,
-                     decimal theta, decimal rho, decimal charm = 0,
-                     decimal vanna = 0, decimal volga = 0) : Greeks(delta, gamma, vega, theta, rho), Greeks
-{
-    public decimal Charm { get; set; } = charm;
-    public decimal Vanna { get; set; } = vanna;
-    public decimal Volga { get; set; } = volga;
 }

@@ -1,7 +1,6 @@
 syntax = "proto3";
  
-package ma.theoengine.proto;
- 
+package Kohinoor.Protos; 
  
 message OptionTheo {
   uint32 seq_num = 1 ;
@@ -32,4 +31,5 @@ message OptionTheo {
   double fit_price_put = 26;
   double fit_delta_call = 27;
   double fit_delta_put = 28;
+  string underlying = 29;
 }

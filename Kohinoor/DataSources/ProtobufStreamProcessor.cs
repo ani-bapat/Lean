@@ -1,66 +1,22 @@
-public class TradingDataStreamClient(string serverAddress)
-{
-private readonly string _serverAddress = serverAddress;
-private NetworkStream _stream;
-private Thread _receiveThread;
-public event EventHandler<ProtobufMarketData> OnMarketDataReceived;
-
-    public void StartStreaming()
-{
-    // Connect to your protobuf stream source
-    var parts = _serverAddress.Split(':');
-    var tcpClient = new TcpClient(parts[0], int.Parse(parts[1]));
-    _stream = tcpClient.GetStream();
-    
-    _receiveThread = new Thread(ReceiveLoop) { IsBackground = true };
-    _receiveThread.Start();
-}
-
-private void ReceiveLoop()
-{
-    var buffer = ArrayPool<byte>.Shared.Rent(65536);
-    try
-    {
-        while (_stream != null && _stream.CanRead)
-        {
-            // Read message length prefix (assuming length-prefixed messages)
-            var lengthBuffer = new byte[4];
-            _stream.Read(lengthBuffer, 0, 4);
-            var messageLength = BitConverter.ToInt32(lengthBuffer, 0);
-            
-            // Read the protobuf message
-            var bytesRead = 0;
-            while (bytesRead < messageLength)
-            {
-                bytesRead += _stream.Read(buffer, bytesRead, messageLength - bytesRead);
-            }
-
-                // Deserialize protobuf message
-                using var memoryStream = new MemoryStream(buffer, 0, messageLength);
-                var data = ProtobufMarketData.Parser.ParseFrom(memoryStream);
-                OnMarketDataReceived?.Invoke(this, data);
-            }
-    }
-    finally
-    {
-        ArrayPool<byte>.Shared.Return(buffer);
-    }
-}
-}
-
+using QuantConnect;
+using QuantConnect.Data;
+using QuantConnect.Data.Market;
+using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Interfaces;
 
 public class ProtobufStreamProcessor : IDisposable
 {
     private readonly TradingDataStreamClient _streamClient;
-    private readonly ConcurrentQueue<ProtobufMarketData> _messageQueue;
+    private readonly ConcurrentQueue<OptionTheo> _messageQueue;
     private readonly Timer _processingTimer;
     private readonly CancellationTokenSource _cancellationTokenSource;
 
     public event EventHandler<TheoBar> OnTheoBarReceived;
+    public bool IsConnected => _streamClient?.IsConnected ?? false;
 
     public ProtobufStreamProcessor(string serverAddress)
     {
-        _messageQueue = new ConcurrentQueue<ProtobufMarketData>();
+        _messageQueue = new ConcurrentQueue<OptionTheo>();
         _cancellationTokenSource = new CancellationTokenSource();
         _streamClient = new TradingDataStreamClient(serverAddress);
 
@@ -70,7 +26,15 @@ public class ProtobufStreamProcessor : IDisposable
         _streamClient.OnMarketDataReceived += OnProtobufDataReceived;
     }
 
-    private void OnProtobufDataReceived(object sender, ProtobufMarketData data)
+    public void Dispose()
+    {
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
+        _processingTimer?.Dispose();
+        _streamClient?.Dispose();
+    }
+
+    private void OnProtobufDataReceived(object sender, OptionTheo data)
     {
         // Queue message for batch processing to avoid blocking stream
         _messageQueue.Enqueue(data);
@@ -99,7 +63,7 @@ public class ProtobufStreamProcessor : IDisposable
         }
     }
 
-    private TheoBar ConvertToTheoBar(ProtobufMarketData data)
+    private TheoBar ConvertToTheoBar(OptionTheo data)
     {
         var symbol = Symbol.CreateOption(data.UnderlyingSymbol, Market.USA,
                                         OptionStyle.European, data.OptionRight,
@@ -108,7 +72,7 @@ public class ProtobufStreamProcessor : IDisposable
         var bid = new Bar(data.BidPrice, data.BidPrice, data.BidPrice, data.BidPrice);
         var ask = new Bar(data.AskPrice, data.AskPrice, data.AskPrice, data.AskPrice);
 
-        var greeks = new EnhancedGreeks(
+        var greeks = new Greeks(
             data.Delta, data.Gamma, data.Vega, data.Theta, data.Rho
         );
 

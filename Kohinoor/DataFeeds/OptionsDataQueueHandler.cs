@@ -1,10 +1,32 @@
+using QuantConnect;
+using QuantConnect.Data;
+using QuantConnect.Data.Market;
+using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Interfaces;
+
 public class OptionsDataQueueHandler : IDataQueueHandler, IDisposable
 {
     private readonly ProtobufStreamProcessor _streamProcessor;
     private readonly ConcurrentDictionary<Symbol, SubscriptionDataConfig> _subscriptions;
     private readonly ConcurrentDictionary<Symbol, IDataConsolidator> _consolidators;
     private readonly ConcurrentDictionary<Symbol, Queue<TheoBar>> _dataQueues;
+
+    public bool IsConnected => _streamProcessor != null && _streamProcessor.IsConnected;
     
+    // Implement Dispose
+    public void Dispose()
+    {
+        _streamProcessor?.Dispose();
+        
+        foreach (var consolidator in _consolidators.Values)
+        {
+            consolidator?.Dispose();
+        }
+        _consolidators.Clear();
+        _subscriptions.Clear();
+        _dataQueues.Clear();
+    }
+
     public OptionsDataQueueHandler()
     {
         _subscriptions = new ConcurrentDictionary<Symbol, SubscriptionDataConfig>();

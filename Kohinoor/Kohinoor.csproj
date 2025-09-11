@@ -1,16 +1,18 @@
 <!-- File: YourTeam.Options/YourTeam.Options.csproj -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Reference LEAN projects -->
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
+    <ProjectReference Include="..\Algorithm\QuantConnect.Algorithm.csproj" />
     <ProjectReference Include="..\Engine\QuantConnect.Lean.Engine.csproj" />
     <ProjectReference Include="..\Indicators\QuantConnect.Indicators.csproj" />
-    
+    <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
+
     <!-- NuGet packages -->
     <PackageReference Include="Google.Protobuf" Version="3.24.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.57.0" />
@@ -26,6 +28,6 @@
 </ItemGroup>
 
 <Target Name="GenerateProtos" BeforeTargets="Build">
-  <Exec Command="protoc --csharp_out=Protos/Generated --proto_path=Protos theo.proto" />
+  <Exec Command="protoc --csharp_out=Protos/Generated --proto_path=Protos option_theo.proto" />
 </Target>
 </Project>
