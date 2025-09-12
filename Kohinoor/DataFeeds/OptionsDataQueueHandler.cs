@@ -43,6 +43,7 @@ namespace Kohinoor.DataFeeds
             _dataQueues = new ConcurrentDictionary<Symbol, Queue<TheoBar>>();
             
             // Initialize protobuf processor with your stream address
+            // _streamProcessor = new ProtobufStreamProcessor("10.28.9.17:19351");
             _streamProcessor = new ProtobufStreamProcessor("localhost:50051");
             _streamProcessor.OnTheoBarReceived += OnRawTheoBarReceived;
         }
@@ -52,8 +53,8 @@ namespace Kohinoor.DataFeeds
         {
             _subscriptions.TryAdd(dataConfig.Symbol, dataConfig);
             
-            // Create 1-minute consolidator for this symbol
-            var consolidator = new DataConsolidator<TheoBar>(TimeSpan.FromMinutes(1));
+            // Create 10-second consolidator for this symbol
+            var consolidator = new DataConsolidator<TheoBar>(TimeSpan.FromSeconds(10));
             consolidator.DataConsolidated += (sender, consolidated) =>
             {
                 var queue = _dataQueues.GetOrAdd(dataConfig.Symbol, _ => new Queue<TheoBar>());

@@ -59,13 +59,10 @@ namespace Kohinoor.Data
                 _period
             )
             {
-                ForwardPrice = theoBar.ForwardPrice,
-                DiscountFactor = theoBar.DiscountFactor,
-                Z = theoBar.Z,
-                OomSpread = theoBar.OomSpread,
-                BsplineValues = theoBar.BsplineValues,
+                Forward = theoBar.Forward,
+                Discount = theoBar.Discount,
                 Moneyness = theoBar.Moneyness,
-                TimeToExpiry = theoBar.TimeToExpiry
+                TradingTimeToExpiry = theoBar.TradingTimeToExpiry
             };
             _nextBarTime = theoBar.Time + _period;
         }
@@ -76,7 +73,7 @@ namespace Kohinoor.Data
             _workingBar.Update(theoBar.Bid.High, theoBar.Bid.Low, theoBar.Bid.Close,
                             theoBar.Ask.High, theoBar.Ask.Low, theoBar.Ask.Close,
                             theoBar.LastBidSize, theoBar.LastAskSize);
-            
+
             // Update end time and latest values
             _workingBar.EndTime = theoBar.EndTime;
             _workingBar.TheoreticalValue = theoBar.TheoreticalValue;
@@ -85,12 +82,11 @@ namespace Kohinoor.Data
             _workingBar.OpenInterest = theoBar.OpenInterest;
             
             // Keep latest values for additional fields
-            _workingBar.ForwardPrice = theoBar.ForwardPrice;
-            _workingBar.DiscountFactor = theoBar.DiscountFactor;
-            _workingBar.Z = theoBar.Z;
-            _workingBar.OomSpread = theoBar.OomSpread;
-            _workingBar.BsplineValues = theoBar.BsplineValues;
-            _workingBar.TimeToExpiry = theoBar.TimeToExpiry;
+            _workingBar.Forward = theoBar.Forward;
+            _workingBar.Discount = theoBar.Discount;
+            _workingBar.TradingTimeToExpiry = theoBar.TradingTimeToExpiry;
+            _workingBar.Settlement = theoBar.Settlement;
+            _workingBar.Moneyness = theoBar.Moneyness;
         }
     }
 }

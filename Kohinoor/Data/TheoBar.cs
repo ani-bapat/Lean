@@ -18,12 +18,13 @@ namespace Kohinoor.Data
         public decimal ImpliedVolatility { get; set; }
         public Greeks Greeks { get; set; }
         public decimal OpenInterest { get; set; }
-        public decimal UnderlyingPrice { get; set; }
+        public decimal Forward { get; set; }
+        public decimal Discount { get; set; }
+        public decimal TradingTimeToExpiry { get; set; }
 
         // VIX/SPX specific properties
         public decimal Settlement { get; set; }
         public decimal Moneyness { get; set; }
-        public decimal TimeToExpiry { get; set; }
 
         public TheoBar(DateTime time, Symbol symbol, IBar bid, decimal lastBidSize,
                     IBar ask, decimal lastAskSize, decimal theo, Greeks greeks,
@@ -43,10 +44,11 @@ namespace Kohinoor.Data
                             TheoreticalValue, Greeks, ImpliedVolatility, OpenInterest, Period)
             {
                 EndTime = EndTime,
-                UnderlyingPrice = UnderlyringPrice,
+                Forward = Forward,
+                Discount = Discount,
                 Settlement = Settlement,
                 Moneyness = Moneyness,
-                TimeToExpiry = TimeToExpiry
+                TradingTimeToExpiry = TradingTimeToExpiry
             };
         }
 
