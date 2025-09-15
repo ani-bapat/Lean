@@ -54,13 +54,13 @@ namespace Kohinoor.DataFeeds
             _subscriptions.TryAdd(dataConfig.Symbol, dataConfig);
             
             // Create 10-second consolidator for this symbol
-            var consolidator = new DataConsolidator<TheoBar>(TimeSpan.FromSeconds(10));
+            var consolidator = new TheoBarConsolidator(TimeSpan.FromSeconds(10));
             consolidator.DataConsolidated += (sender, consolidated) =>
             {
                 var queue = _dataQueues.GetOrAdd(dataConfig.Symbol, _ => new Queue<TheoBar>());
                 lock (queue)
                 {
-                    queue.Enqueue(consolidated);
+                    queue.Enqueue((TheoBar)consolidated);
                 }
                 newDataAvailableHandler?.Invoke(this, EventArgs.Empty);
             };
@@ -111,7 +111,7 @@ namespace Kohinoor.DataFeeds
         public void SetJob(LiveNodePacket job)
         {
             // Configure any job-specific parameters
-            _streamProcessor.StartStreaming();
+            // _streamProcessor.StartStreaming();
         }
     }
 }

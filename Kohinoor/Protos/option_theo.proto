@@ -62,4 +62,5 @@ message OptionTheo {
   double vol_dlogforward = 57;
   double vol_dlogforward2 = 58;
   double logmoneyness = 59;
+  string underlying = 60;
 }

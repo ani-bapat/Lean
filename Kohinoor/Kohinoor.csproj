@@ -1,4 +1,4 @@
-<!-- File: YourTeam.Options/YourTeam.Options.csproj -->
+<!-- File: Kohinoor/Kohinoor.csproj -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -26,8 +26,4 @@
   <ItemGroup>
   <Protobuf Include="Protos\*.proto" GrpcServices="Client" />
 </ItemGroup>
-
-<Target Name="GenerateProtos" BeforeTargets="Build">
-  <Exec Command="protoc --csharp_out=Protos/Generated --proto_path=Protos option_theo.proto" />
-</Target>
 </Project>

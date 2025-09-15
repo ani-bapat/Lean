@@ -4,19 +4,25 @@ using QuantConnect.Data.Consolidators;
 using QuantConnect.Data.Market;
 using QuantConnect.Lean.Engine.DataFeeds;
 using QuantConnect.Interfaces;
+using QuantConnect.Logging;
 
 namespace Kohinoor.Data
 {
     // Consolidator for TheoBar to create time-based bars
-    public class TheoBarConsolidator(TimeSpan period) : DataConsolidator<TheoBar>(period)
+    public class TheoBarConsolidator : DataConsolidator<TheoBar>
     {
-        private readonly TimeSpan _period = period;
+        private readonly TimeSpan _period;
         private TheoBar _workingBar;
         private DateTime _nextBarTime;
 
         public override Type OutputType => typeof(TheoBar);
         
         public override IBaseData WorkingData => _workingBar;
+
+        public TheoBarConsolidator(TimeSpan period)
+        {
+            _period = period;
+        }
 
         public override void Update(TheoBar data)
         {
@@ -30,6 +36,7 @@ namespace Kohinoor.Data
             {
                 // Complete current bar and emit
                 OnDataConsolidated(_workingBar);
+                Log.Debug($"Consolidated TheoBar: {_workingBar}");
                 StartNewBar(data);
             }
             else
@@ -70,9 +77,8 @@ namespace Kohinoor.Data
         private void UpdateWorkingBar(TheoBar theoBar)
         {
             // Update OHLC values for bid/ask
-            _workingBar.Update(theoBar.Bid.High, theoBar.Bid.Low, theoBar.Bid.Close,
-                            theoBar.Ask.High, theoBar.Ask.Low, theoBar.Ask.Close,
-                            theoBar.LastBidSize, theoBar.LastAskSize);
+            _workingBar.Bid.Update(theoBar.Bid.Close);
+            _workingBar.Ask.Update(theoBar.Ask.Close);
 
             // Update end time and latest values
             _workingBar.EndTime = theoBar.EndTime;

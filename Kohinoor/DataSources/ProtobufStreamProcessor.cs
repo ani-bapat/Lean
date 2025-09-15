@@ -22,12 +22,17 @@ namespace Kohinoor.DataSources
         public event EventHandler<TheoBar> OnTheoBarReceived;
         public bool IsConnected => _streamClient?.IsConnected ?? false;
 
+        public void StartStreaming()
+        {
+            _streamClient.StartStreaming();
+        }
+
         public ProtobufStreamProcessor(string serverAddress)
         {
             _messageQueue = new ConcurrentQueue<OptionTheo>();
             _cancellationTokenSource = new CancellationTokenSource();
             _streamClient = new TradingDataStreamClient(serverAddress);
-
+            _streamClient.StartStreaming();
             // Process queued messages every 500ms to maintain timing
             _processingTimer = new Timer(ProcessMessageBatch, null, 0, 500);
 
@@ -53,15 +58,18 @@ namespace Kohinoor.DataSources
             var processedCount = 0;
             var stopwatch = Stopwatch.StartNew();
 
-            // Process messages with time budget (leave 50ms buffer)
-            while (_messageQueue.TryDequeue(out var protobufData) &&
+            while (_messageQueue.TryDequeue(out var optionTheo) &&
                 stopwatch.ElapsedMilliseconds < 450 &&
-                processedCount < 1000) // Max batch size
+                processedCount < 1000)
             {
                 try
                 {
-                    var theoBar = ConvertToTheoBar(protobufData);
-                    OnTheoBarReceived?.Invoke(this, theoBar);
+                    // Now returns a list (call and put)
+                    var theoBars = ConvertToTheoBars(optionTheo);
+                    foreach (var theoBar in theoBars)
+                    {
+                        OnTheoBarReceived?.Invoke(this, theoBar);
+                    }
                     processedCount++;
                 }
                 catch (Exception ex)
@@ -70,30 +78,76 @@ namespace Kohinoor.DataSources
                 }
             }
         }
-
-        private TheoBar ConvertToTheoBar(OptionTheo data)
+        private List<TheoBar> ConvertToTheoBars(OptionTheo data)
         {
-            var symbol = Symbol.CreateOption(data.UnderlyingSymbol, Market.USA,
-                                            OptionStyle.European, data.OptionRight,
-                                            data.Strike, data.Expiry);
-
-            var bid = new Bar(data.BidPrice, data.BidPrice, data.BidPrice, data.BidPrice);
-            var ask = new Bar(data.AskPrice, data.AskPrice, data.AskPrice, data.AskPrice);
-
-            var greeks = new Greeks(
-                data.Delta, data.Gamma, data.Vega, data.Theta, data.Rho
+            var result = new List<TheoBar>();
+            
+            // Convert nanosecond epoch to DateTime
+            var timestamp = DateTimeOffset.FromUnixTimeMilliseconds((long)(data.FrameworkTime / 1_000_000)).DateTime;
+            var expiry = DateTimeOffset.FromUnixTimeMilliseconds((long)(data.Expiration / 1_000_000)).DateTime;
+            
+            // Create CALL TheoBar
+            var callSymbol = Symbol.CreateOption(data.Underlying, Market.USA, 
+                                                OptionStyle.European, OptionRight.Call, 
+                                                (decimal)data.Strike, expiry);
+            
+            var callBid = new Bar((decimal)data.BidPriceCall, (decimal)data.BidPriceCall, 
+                                (decimal)data.BidPriceCall, (decimal)data.BidPriceCall);
+            var callAsk = new Bar((decimal)data.AskPriceCall, (decimal)data.AskPriceCall, 
+                                (decimal)data.AskPriceCall, (decimal)data.AskPriceCall);
+            
+            // Greeks is abstract - create instance properly
+            var callGreeks = new KohinoorGreeks(
+                delta: (decimal)data.FitDeltaCall,
+                gamma: (decimal)data.FitGammaCall,
+                vega: (decimal)data.FitVegaCall,
+                theta: (decimal)data.FitThetaCall
+            );  
+            
+            var callTheoBar = new TheoBar(
+                timestamp,
+                callSymbol,
+                callBid, data.BidQuantityCall,
+                callAsk, data.AskQuantityCall,
+                (decimal)data.EstPriceCall,  // Theoretical value
+                callGreeks,
+                (decimal)data.Vol,  // Implied volatility
+                0  // Open interest - not in proto
+            );
+            
+            result.Add(callTheoBar);
+            
+            // Create PUT TheoBar (similar structure)
+            var putSymbol = Symbol.CreateOption(data.Underlying, Market.USA, 
+                                            OptionStyle.European, OptionRight.Put, 
+                                            (decimal)data.Strike, expiry);
+            
+            var putBid = new Bar((decimal)data.BidPricePut, (decimal)data.BidPricePut, 
+                                (decimal)data.BidPricePut, (decimal)data.BidPricePut);
+            var putAsk = new Bar((decimal)data.AskPricePut, (decimal)data.AskPricePut, 
+                                (decimal)data.AskPricePut, (decimal)data.AskPricePut);
+            
+            var putGreeks = new KohinoorGreeks( 
+                delta : (decimal)data.FitDeltaPut,
+                gamma : (decimal)data.FitGammaPut,
+                vega : (decimal)data.FitVegaPut,
+                theta : (decimal)data.FitThetaPut
             );
 
-            return new TheoBar(
-                data.Timestamp.ToDateTime(),
-                symbol,
-                bid, data.BidSize,
-                ask, data.AskSize,
-                data.TheoreticalValue,
-                greeks,
-                data.ImpliedVolatility,
-                data.OpenInterest
+            var putTheoBar = new TheoBar(
+                timestamp,
+                putSymbol,
+                putBid, data.BidQuantityPut,
+                putAsk, data.AskQuantityPut,
+                (decimal)data.EstPricePut,  // Theoretical value
+                putGreeks,
+                (decimal)data.Vol,  // Implied volatility
+                0  // Open interest
             );
+            
+            result.Add(putTheoBar);
+            
+            return result;
         }
     }
 }

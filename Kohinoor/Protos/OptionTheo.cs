@@ -24,7 +24,7 @@ namespace Kohinoor.Protos {
     static OptionTheoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFvcHRpb25fdGhlby5wcm90bxIPS29oaW5vb3IuUHJvdG9zIvoECgpPcHRp",
+            "ChFvcHRpb25fdGhlby5wcm90bxIPS29oaW5vb3IuUHJvdG9zIosLCgpPcHRp",
             "b25UaGVvEg8KB3NlcV9udW0YASABKA0SEQoJc2VuZF90aW1lGAIgASgEEhYK",
             "DmZyYW1ld29ya190aW1lGAMgASgEEhoKEmNhbGxfaW5zdHJ1bWVudF9pZBgE",
             "IAEoBBIZChFwdXRfaW5zdHJ1bWVudF9pZBgFIAEoBBIOCgZzdHJpa2UYBiAB",
@@ -35,15 +35,32 @@ namespace Kohinoor.Protos {
             "GA4gASgBEhgKEGJpZF9xdWFudGl0eV9wdXQYDyABKAMSFQoNYXNrX3ByaWNl",
             "X3B1dBgQIAEoARIYChBhc2tfcXVhbnRpdHlfcHV0GBEgASgDEhUKDWVzdF9w",
             "cmljZV9wdXQYEiABKAESEgoKZXhwaXJhdGlvbhgTIAEoBBILCgN2b2wYFCAB",
-            "KAESCQoBehgVIAEoARIMCgR2ZWdhGBYgASgBEhIKCm9vbV9zcHJlYWQYFyAB",
-            "KAESDwoHZml0X3ZvbBgYIAEoARIWCg5maXRfcHJpY2VfY2FsbBgZIAEoARIV",
-            "Cg1maXRfcHJpY2VfcHV0GBogASgBEhYKDmZpdF9kZWx0YV9jYWxsGBsgASgB",
-            "EhUKDWZpdF9kZWx0YV9wdXQYHCABKAESEgoKdW5kZXJseWluZxgdIAEoCWIG",
-            "cHJvdG8z"));
+            "KAESCgoCZDAYFSABKAESCwoDdHRlGBYgASgBEhQKDGZpdF9ub3JtX3ZvbBgX",
+            "IAEoARIPCgdmaXRfdm9sGBggASgBEh8KF2ZpdF9ub3JtX3ZvbF9kbG9nc3Ry",
+            "aWtlGBkgASgBEiAKGGZpdF9ub3JtX3ZvbF9kbG9nc3RyaWtlMhgaIAEoARIW",
+            "Cg5maXRfcHJpY2VfY2FsbBgbIAEoARIVCg1maXRfcHJpY2VfcHV0GBwgASgB",
+            "EhYKDmZpdF9kZWx0YV9jYWxsGB0gASgBEhUKDWZpdF9kZWx0YV9wdXQYHiAB",
+            "KAESFQoNZml0X3ZlZ2FfY2FsbBgfIAEoARIUCgxmaXRfdmVnYV9wdXQYICAB",
+            "KAESFgoOZml0X2dhbW1hX2NhbGwYISABKAESFQoNZml0X2dhbW1hX3B1dBgi",
+            "IAEoARIWCg5maXRfY2hhcm1fY2FsbBgjIAEoARIVCg1maXRfY2hhcm1fcHV0",
+            "GCQgASgBEhYKDmZpdF92YW5uYV9jYWxsGCUgASgBEhUKDWZpdF92YW5uYV9w",
+            "dXQYJiABKAESGwoTZml0X3NrZXdfZGVsdGFfY2FsbBgnIAEoARIaChJmaXRf",
+            "c2tld19kZWx0YV9wdXQYKCABKAESGwoTZml0X3NrZXdfZ2FtbWFfY2FsbBgp",
+            "IAEoARIaChJmaXRfc2tld19nYW1tYV9wdXQYKiABKAESFgoOZml0X3RoZXRh",
+            "X2NhbGwYKyABKAESFQoNZml0X3RoZXRhX3B1dBgsIAEoARIaChJmaXRfdm9s",
+            "X3RoZXRhX2NhbGwYLSABKAESGQoRZml0X3ZvbF90aGV0YV9wdXQYLiABKAES",
+            "HAoUcHJvYmFiaWxpdHlfaXRtX2NhbGwYLyABKAESGwoTcHJvYmFiaWxpdHlf",
+            "aXRtX3B1dBgwIAEoARITCgtpbXBsaWVkX3BkZhgxIAEoARIQCgh2Y3JfYmFz",
+            "ZRgyIAEoARIcChR2Y3Jfc2xvcGVfbXVsdGlwbGllchgzIAEoARIRCgl2Y3Jf",
+            "dG90YWwYNCABKAESDwoHYXRtX3ZvbBg1IAEoARIaChJhdG1fdm9sX2Rsb2dz",
+            "dHJpa2UYNiABKAESFgoOdm9sX2Rsb2dzdHJpa2UYNyABKAESFwoPdm9sX2Rs",
+            "b2dzdHJpa2UyGDggASgBEhcKD3ZvbF9kbG9nZm9yd2FyZBg5IAEoARIYChB2",
+            "b2xfZGxvZ2ZvcndhcmQyGDogASgBEhQKDGxvZ21vbmV5bmVzcxg7IAEoARIS",
+            "Cgp1bmRlcmx5aW5nGDwgASgJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Kohinoor.Protos.OptionTheo), global::Kohinoor.Protos.OptionTheo.Parser, new[]{ "SeqNum", "SendTime", "FrameworkTime", "CallInstrumentId", "PutInstrumentId", "Strike", "Forward", "Discount", "BidPriceCall", "BidQuantityCall", "AskPriceCall", "AskQuantityCall", "EstPriceCall", "BidPricePut", "BidQuantityPut", "AskPricePut", "AskQuantityPut", "EstPricePut", "Expiration", "Vol", "Z", "Vega", "OomSpread", "FitVol", "FitPriceCall", "FitPricePut", "FitDeltaCall", "FitDeltaPut", "Underlying" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Kohinoor.Protos.OptionTheo), global::Kohinoor.Protos.OptionTheo.Parser, new[]{ "SeqNum", "SendTime", "FrameworkTime", "CallInstrumentId", "PutInstrumentId", "Strike", "Forward", "Discount", "BidPriceCall", "BidQuantityCall", "AskPriceCall", "AskQuantityCall", "EstPriceCall", "BidPricePut", "BidQuantityPut", "AskPricePut", "AskQuantityPut", "EstPricePut", "Expiration", "Vol", "D0", "Tte", "FitNormVol", "FitVol", "FitNormVolDlogstrike", "FitNormVolDlogstrike2", "FitPriceCall", "FitPricePut", "FitDeltaCall", "FitDeltaPut", "FitVegaCall", "FitVegaPut", "FitGammaCall", "FitGammaPut", "FitCharmCall", "FitCharmPut", "FitVannaCall", "FitVannaPut", "FitSkewDeltaCall", "FitSkewDeltaPut", "FitSkewGammaCall", "FitSkewGammaPut", "FitThetaCall", "FitThetaPut", "FitVolThetaCall", "FitVolThetaPut", "ProbabilityItmCall", "ProbabilityItmPut", "ImpliedPdf", "VcrBase", "VcrSlopeMultiplier", "VcrTotal", "AtmVol", "AtmVolDlogstrike", "VolDlogstrike", "VolDlogstrike2", "VolDlogforward", "VolDlogforward2", "Logmoneyness", "Underlying" }, null, null, null, null)
           }));
     }
     #endregion
@@ -105,14 +122,45 @@ namespace Kohinoor.Protos {
       estPricePut_ = other.estPricePut_;
       expiration_ = other.expiration_;
       vol_ = other.vol_;
-      z_ = other.z_;
-      vega_ = other.vega_;
-      oomSpread_ = other.oomSpread_;
+      d0_ = other.d0_;
+      tte_ = other.tte_;
+      fitNormVol_ = other.fitNormVol_;
       fitVol_ = other.fitVol_;
+      fitNormVolDlogstrike_ = other.fitNormVolDlogstrike_;
+      fitNormVolDlogstrike2_ = other.fitNormVolDlogstrike2_;
       fitPriceCall_ = other.fitPriceCall_;
       fitPricePut_ = other.fitPricePut_;
       fitDeltaCall_ = other.fitDeltaCall_;
       fitDeltaPut_ = other.fitDeltaPut_;
+      fitVegaCall_ = other.fitVegaCall_;
+      fitVegaPut_ = other.fitVegaPut_;
+      fitGammaCall_ = other.fitGammaCall_;
+      fitGammaPut_ = other.fitGammaPut_;
+      fitCharmCall_ = other.fitCharmCall_;
+      fitCharmPut_ = other.fitCharmPut_;
+      fitVannaCall_ = other.fitVannaCall_;
+      fitVannaPut_ = other.fitVannaPut_;
+      fitSkewDeltaCall_ = other.fitSkewDeltaCall_;
+      fitSkewDeltaPut_ = other.fitSkewDeltaPut_;
+      fitSkewGammaCall_ = other.fitSkewGammaCall_;
+      fitSkewGammaPut_ = other.fitSkewGammaPut_;
+      fitThetaCall_ = other.fitThetaCall_;
+      fitThetaPut_ = other.fitThetaPut_;
+      fitVolThetaCall_ = other.fitVolThetaCall_;
+      fitVolThetaPut_ = other.fitVolThetaPut_;
+      probabilityItmCall_ = other.probabilityItmCall_;
+      probabilityItmPut_ = other.probabilityItmPut_;
+      impliedPdf_ = other.impliedPdf_;
+      vcrBase_ = other.vcrBase_;
+      vcrSlopeMultiplier_ = other.vcrSlopeMultiplier_;
+      vcrTotal_ = other.vcrTotal_;
+      atmVol_ = other.atmVol_;
+      atmVolDlogstrike_ = other.atmVolDlogstrike_;
+      volDlogstrike_ = other.volDlogstrike_;
+      volDlogstrike2_ = other.volDlogstrike2_;
+      volDlogforward_ = other.volDlogforward_;
+      volDlogforward2_ = other.volDlogforward2_;
+      logmoneyness_ = other.logmoneyness_;
       underlying_ = other.underlying_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -240,9 +288,6 @@ namespace Kohinoor.Protos {
     /// <summary>Field number for the "bid_quantity_call" field.</summary>
     public const int BidQuantityCallFieldNumber = 10;
     private long bidQuantityCall_;
-    /// <summary>
-    /// Assuming qty_t is int64
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long BidQuantityCall {
@@ -352,7 +397,7 @@ namespace Kohinoor.Protos {
     public const int ExpirationFieldNumber = 19;
     private ulong expiration_;
     /// <summary>
-    /// Assuming epoch_ns_t is uint64
+    /// epoch_ns_t
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -366,6 +411,9 @@ namespace Kohinoor.Protos {
     /// <summary>Field number for the "vol" field.</summary>
     public const int VolFieldNumber = 20;
     private double vol_;
+    /// <summary>
+    /// vol from least square fit of otm options
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double Vol {
@@ -375,45 +423,51 @@ namespace Kohinoor.Protos {
       }
     }
 
-    /// <summary>Field number for the "z" field.</summary>
-    public const int ZFieldNumber = 21;
-    private double z_;
+    /// <summary>Field number for the "d0" field.</summary>
+    public const int D0FieldNumber = 21;
+    private double d0_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public double Z {
-      get { return z_; }
+    public double D0 {
+      get { return d0_; }
       set {
-        z_ = value;
+        d0_ = value;
       }
     }
 
-    /// <summary>Field number for the "vega" field.</summary>
-    public const int VegaFieldNumber = 22;
-    private double vega_;
+    /// <summary>Field number for the "tte" field.</summary>
+    public const int TteFieldNumber = 22;
+    private double tte_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public double Vega {
-      get { return vega_; }
+    public double Tte {
+      get { return tte_; }
       set {
-        vega_ = value;
+        tte_ = value;
       }
     }
 
-    /// <summary>Field number for the "oom_spread" field.</summary>
-    public const int OomSpreadFieldNumber = 23;
-    private double oomSpread_;
+    /// <summary>Field number for the "fit_norm_vol" field.</summary>
+    public const int FitNormVolFieldNumber = 23;
+    private double fitNormVol_;
+    /// <summary>
+    /// normalized vol from market fit
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public double OomSpread {
-      get { return oomSpread_; }
+    public double FitNormVol {
+      get { return fitNormVol_; }
       set {
-        oomSpread_ = value;
+        fitNormVol_ = value;
       }
     }
 
     /// <summary>Field number for the "fit_vol" field.</summary>
     public const int FitVolFieldNumber = 24;
     private double fitVol_;
+    /// <summary>
+    /// unnormalized vol from market fit
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double FitVol {
@@ -423,8 +477,32 @@ namespace Kohinoor.Protos {
       }
     }
 
+    /// <summary>Field number for the "fit_norm_vol_dlogstrike" field.</summary>
+    public const int FitNormVolDlogstrikeFieldNumber = 25;
+    private double fitNormVolDlogstrike_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitNormVolDlogstrike {
+      get { return fitNormVolDlogstrike_; }
+      set {
+        fitNormVolDlogstrike_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_norm_vol_dlogstrike2" field.</summary>
+    public const int FitNormVolDlogstrike2FieldNumber = 26;
+    private double fitNormVolDlogstrike2_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitNormVolDlogstrike2 {
+      get { return fitNormVolDlogstrike2_; }
+      set {
+        fitNormVolDlogstrike2_ = value;
+      }
+    }
+
     /// <summary>Field number for the "fit_price_call" field.</summary>
-    public const int FitPriceCallFieldNumber = 25;
+    public const int FitPriceCallFieldNumber = 27;
     private double fitPriceCall_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -436,7 +514,7 @@ namespace Kohinoor.Protos {
     }
 
     /// <summary>Field number for the "fit_price_put" field.</summary>
-    public const int FitPricePutFieldNumber = 26;
+    public const int FitPricePutFieldNumber = 28;
     private double fitPricePut_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -448,7 +526,7 @@ namespace Kohinoor.Protos {
     }
 
     /// <summary>Field number for the "fit_delta_call" field.</summary>
-    public const int FitDeltaCallFieldNumber = 27;
+    public const int FitDeltaCallFieldNumber = 29;
     private double fitDeltaCall_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -460,7 +538,7 @@ namespace Kohinoor.Protos {
     }
 
     /// <summary>Field number for the "fit_delta_put" field.</summary>
-    public const int FitDeltaPutFieldNumber = 28;
+    public const int FitDeltaPutFieldNumber = 30;
     private double fitDeltaPut_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -471,8 +549,356 @@ namespace Kohinoor.Protos {
       }
     }
 
+    /// <summary>Field number for the "fit_vega_call" field.</summary>
+    public const int FitVegaCallFieldNumber = 31;
+    private double fitVegaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVegaCall {
+      get { return fitVegaCall_; }
+      set {
+        fitVegaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_vega_put" field.</summary>
+    public const int FitVegaPutFieldNumber = 32;
+    private double fitVegaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVegaPut {
+      get { return fitVegaPut_; }
+      set {
+        fitVegaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_gamma_call" field.</summary>
+    public const int FitGammaCallFieldNumber = 33;
+    private double fitGammaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitGammaCall {
+      get { return fitGammaCall_; }
+      set {
+        fitGammaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_gamma_put" field.</summary>
+    public const int FitGammaPutFieldNumber = 34;
+    private double fitGammaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitGammaPut {
+      get { return fitGammaPut_; }
+      set {
+        fitGammaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_charm_call" field.</summary>
+    public const int FitCharmCallFieldNumber = 35;
+    private double fitCharmCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitCharmCall {
+      get { return fitCharmCall_; }
+      set {
+        fitCharmCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_charm_put" field.</summary>
+    public const int FitCharmPutFieldNumber = 36;
+    private double fitCharmPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitCharmPut {
+      get { return fitCharmPut_; }
+      set {
+        fitCharmPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_vanna_call" field.</summary>
+    public const int FitVannaCallFieldNumber = 37;
+    private double fitVannaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVannaCall {
+      get { return fitVannaCall_; }
+      set {
+        fitVannaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_vanna_put" field.</summary>
+    public const int FitVannaPutFieldNumber = 38;
+    private double fitVannaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVannaPut {
+      get { return fitVannaPut_; }
+      set {
+        fitVannaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_skew_delta_call" field.</summary>
+    public const int FitSkewDeltaCallFieldNumber = 39;
+    private double fitSkewDeltaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitSkewDeltaCall {
+      get { return fitSkewDeltaCall_; }
+      set {
+        fitSkewDeltaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_skew_delta_put" field.</summary>
+    public const int FitSkewDeltaPutFieldNumber = 40;
+    private double fitSkewDeltaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitSkewDeltaPut {
+      get { return fitSkewDeltaPut_; }
+      set {
+        fitSkewDeltaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_skew_gamma_call" field.</summary>
+    public const int FitSkewGammaCallFieldNumber = 41;
+    private double fitSkewGammaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitSkewGammaCall {
+      get { return fitSkewGammaCall_; }
+      set {
+        fitSkewGammaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_skew_gamma_put" field.</summary>
+    public const int FitSkewGammaPutFieldNumber = 42;
+    private double fitSkewGammaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitSkewGammaPut {
+      get { return fitSkewGammaPut_; }
+      set {
+        fitSkewGammaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_theta_call" field.</summary>
+    public const int FitThetaCallFieldNumber = 43;
+    private double fitThetaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitThetaCall {
+      get { return fitThetaCall_; }
+      set {
+        fitThetaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_theta_put" field.</summary>
+    public const int FitThetaPutFieldNumber = 44;
+    private double fitThetaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitThetaPut {
+      get { return fitThetaPut_; }
+      set {
+        fitThetaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_vol_theta_call" field.</summary>
+    public const int FitVolThetaCallFieldNumber = 45;
+    private double fitVolThetaCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVolThetaCall {
+      get { return fitVolThetaCall_; }
+      set {
+        fitVolThetaCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fit_vol_theta_put" field.</summary>
+    public const int FitVolThetaPutFieldNumber = 46;
+    private double fitVolThetaPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double FitVolThetaPut {
+      get { return fitVolThetaPut_; }
+      set {
+        fitVolThetaPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "probability_itm_call" field.</summary>
+    public const int ProbabilityItmCallFieldNumber = 47;
+    private double probabilityItmCall_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double ProbabilityItmCall {
+      get { return probabilityItmCall_; }
+      set {
+        probabilityItmCall_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "probability_itm_put" field.</summary>
+    public const int ProbabilityItmPutFieldNumber = 48;
+    private double probabilityItmPut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double ProbabilityItmPut {
+      get { return probabilityItmPut_; }
+      set {
+        probabilityItmPut_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "implied_pdf" field.</summary>
+    public const int ImpliedPdfFieldNumber = 49;
+    private double impliedPdf_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double ImpliedPdf {
+      get { return impliedPdf_; }
+      set {
+        impliedPdf_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vcr_base" field.</summary>
+    public const int VcrBaseFieldNumber = 50;
+    private double vcrBase_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VcrBase {
+      get { return vcrBase_; }
+      set {
+        vcrBase_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vcr_slope_multiplier" field.</summary>
+    public const int VcrSlopeMultiplierFieldNumber = 51;
+    private double vcrSlopeMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VcrSlopeMultiplier {
+      get { return vcrSlopeMultiplier_; }
+      set {
+        vcrSlopeMultiplier_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vcr_total" field.</summary>
+    public const int VcrTotalFieldNumber = 52;
+    private double vcrTotal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VcrTotal {
+      get { return vcrTotal_; }
+      set {
+        vcrTotal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "atm_vol" field.</summary>
+    public const int AtmVolFieldNumber = 53;
+    private double atmVol_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double AtmVol {
+      get { return atmVol_; }
+      set {
+        atmVol_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "atm_vol_dlogstrike" field.</summary>
+    public const int AtmVolDlogstrikeFieldNumber = 54;
+    private double atmVolDlogstrike_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double AtmVolDlogstrike {
+      get { return atmVolDlogstrike_; }
+      set {
+        atmVolDlogstrike_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vol_dlogstrike" field.</summary>
+    public const int VolDlogstrikeFieldNumber = 55;
+    private double volDlogstrike_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VolDlogstrike {
+      get { return volDlogstrike_; }
+      set {
+        volDlogstrike_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vol_dlogstrike2" field.</summary>
+    public const int VolDlogstrike2FieldNumber = 56;
+    private double volDlogstrike2_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VolDlogstrike2 {
+      get { return volDlogstrike2_; }
+      set {
+        volDlogstrike2_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vol_dlogforward" field.</summary>
+    public const int VolDlogforwardFieldNumber = 57;
+    private double volDlogforward_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VolDlogforward {
+      get { return volDlogforward_; }
+      set {
+        volDlogforward_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vol_dlogforward2" field.</summary>
+    public const int VolDlogforward2FieldNumber = 58;
+    private double volDlogforward2_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double VolDlogforward2 {
+      get { return volDlogforward2_; }
+      set {
+        volDlogforward2_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "logmoneyness" field.</summary>
+    public const int LogmoneynessFieldNumber = 59;
+    private double logmoneyness_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double Logmoneyness {
+      get { return logmoneyness_; }
+      set {
+        logmoneyness_ = value;
+      }
+    }
+
     /// <summary>Field number for the "underlying" field.</summary>
-    public const int UnderlyingFieldNumber = 29;
+    public const int UnderlyingFieldNumber = 60;
     private string underlying_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -518,14 +944,45 @@ namespace Kohinoor.Protos {
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(EstPricePut, other.EstPricePut)) return false;
       if (Expiration != other.Expiration) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Vol, other.Vol)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Z, other.Z)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Vega, other.Vega)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(OomSpread, other.OomSpread)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(D0, other.D0)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Tte, other.Tte)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitNormVol, other.FitNormVol)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVol, other.FitVol)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitNormVolDlogstrike, other.FitNormVolDlogstrike)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitNormVolDlogstrike2, other.FitNormVolDlogstrike2)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitPriceCall, other.FitPriceCall)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitPricePut, other.FitPricePut)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitDeltaCall, other.FitDeltaCall)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitDeltaPut, other.FitDeltaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVegaCall, other.FitVegaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVegaPut, other.FitVegaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitGammaCall, other.FitGammaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitGammaPut, other.FitGammaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitCharmCall, other.FitCharmCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitCharmPut, other.FitCharmPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVannaCall, other.FitVannaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVannaPut, other.FitVannaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitSkewDeltaCall, other.FitSkewDeltaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitSkewDeltaPut, other.FitSkewDeltaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitSkewGammaCall, other.FitSkewGammaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitSkewGammaPut, other.FitSkewGammaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitThetaCall, other.FitThetaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitThetaPut, other.FitThetaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVolThetaCall, other.FitVolThetaCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(FitVolThetaPut, other.FitVolThetaPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(ProbabilityItmCall, other.ProbabilityItmCall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(ProbabilityItmPut, other.ProbabilityItmPut)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(ImpliedPdf, other.ImpliedPdf)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VcrBase, other.VcrBase)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VcrSlopeMultiplier, other.VcrSlopeMultiplier)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VcrTotal, other.VcrTotal)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AtmVol, other.AtmVol)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AtmVolDlogstrike, other.AtmVolDlogstrike)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VolDlogstrike, other.VolDlogstrike)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VolDlogstrike2, other.VolDlogstrike2)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VolDlogforward, other.VolDlogforward)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(VolDlogforward2, other.VolDlogforward2)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Logmoneyness, other.Logmoneyness)) return false;
       if (Underlying != other.Underlying) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -554,14 +1011,45 @@ namespace Kohinoor.Protos {
       if (EstPricePut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(EstPricePut);
       if (Expiration != 0UL) hash ^= Expiration.GetHashCode();
       if (Vol != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Vol);
-      if (Z != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Z);
-      if (Vega != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Vega);
-      if (OomSpread != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(OomSpread);
+      if (D0 != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(D0);
+      if (Tte != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Tte);
+      if (FitNormVol != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitNormVol);
       if (FitVol != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVol);
+      if (FitNormVolDlogstrike != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitNormVolDlogstrike);
+      if (FitNormVolDlogstrike2 != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitNormVolDlogstrike2);
       if (FitPriceCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitPriceCall);
       if (FitPricePut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitPricePut);
       if (FitDeltaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitDeltaCall);
       if (FitDeltaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitDeltaPut);
+      if (FitVegaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVegaCall);
+      if (FitVegaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVegaPut);
+      if (FitGammaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitGammaCall);
+      if (FitGammaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitGammaPut);
+      if (FitCharmCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitCharmCall);
+      if (FitCharmPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitCharmPut);
+      if (FitVannaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVannaCall);
+      if (FitVannaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVannaPut);
+      if (FitSkewDeltaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitSkewDeltaCall);
+      if (FitSkewDeltaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitSkewDeltaPut);
+      if (FitSkewGammaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitSkewGammaCall);
+      if (FitSkewGammaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitSkewGammaPut);
+      if (FitThetaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitThetaCall);
+      if (FitThetaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitThetaPut);
+      if (FitVolThetaCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVolThetaCall);
+      if (FitVolThetaPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(FitVolThetaPut);
+      if (ProbabilityItmCall != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(ProbabilityItmCall);
+      if (ProbabilityItmPut != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(ProbabilityItmPut);
+      if (ImpliedPdf != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(ImpliedPdf);
+      if (VcrBase != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VcrBase);
+      if (VcrSlopeMultiplier != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VcrSlopeMultiplier);
+      if (VcrTotal != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VcrTotal);
+      if (AtmVol != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AtmVol);
+      if (AtmVolDlogstrike != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AtmVolDlogstrike);
+      if (VolDlogstrike != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VolDlogstrike);
+      if (VolDlogstrike2 != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VolDlogstrike2);
+      if (VolDlogforward != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VolDlogforward);
+      if (VolDlogforward2 != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(VolDlogforward2);
+      if (Logmoneyness != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Logmoneyness);
       if (Underlying.Length != 0) hash ^= Underlying.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -661,40 +1149,164 @@ namespace Kohinoor.Protos {
         output.WriteRawTag(161, 1);
         output.WriteDouble(Vol);
       }
-      if (Z != 0D) {
+      if (D0 != 0D) {
         output.WriteRawTag(169, 1);
-        output.WriteDouble(Z);
+        output.WriteDouble(D0);
       }
-      if (Vega != 0D) {
+      if (Tte != 0D) {
         output.WriteRawTag(177, 1);
-        output.WriteDouble(Vega);
+        output.WriteDouble(Tte);
       }
-      if (OomSpread != 0D) {
+      if (FitNormVol != 0D) {
         output.WriteRawTag(185, 1);
-        output.WriteDouble(OomSpread);
+        output.WriteDouble(FitNormVol);
       }
       if (FitVol != 0D) {
         output.WriteRawTag(193, 1);
         output.WriteDouble(FitVol);
       }
-      if (FitPriceCall != 0D) {
+      if (FitNormVolDlogstrike != 0D) {
         output.WriteRawTag(201, 1);
+        output.WriteDouble(FitNormVolDlogstrike);
+      }
+      if (FitNormVolDlogstrike2 != 0D) {
+        output.WriteRawTag(209, 1);
+        output.WriteDouble(FitNormVolDlogstrike2);
+      }
+      if (FitPriceCall != 0D) {
+        output.WriteRawTag(217, 1);
         output.WriteDouble(FitPriceCall);
       }
       if (FitPricePut != 0D) {
-        output.WriteRawTag(209, 1);
+        output.WriteRawTag(225, 1);
         output.WriteDouble(FitPricePut);
       }
       if (FitDeltaCall != 0D) {
-        output.WriteRawTag(217, 1);
+        output.WriteRawTag(233, 1);
         output.WriteDouble(FitDeltaCall);
       }
       if (FitDeltaPut != 0D) {
-        output.WriteRawTag(225, 1);
+        output.WriteRawTag(241, 1);
         output.WriteDouble(FitDeltaPut);
       }
+      if (FitVegaCall != 0D) {
+        output.WriteRawTag(249, 1);
+        output.WriteDouble(FitVegaCall);
+      }
+      if (FitVegaPut != 0D) {
+        output.WriteRawTag(129, 2);
+        output.WriteDouble(FitVegaPut);
+      }
+      if (FitGammaCall != 0D) {
+        output.WriteRawTag(137, 2);
+        output.WriteDouble(FitGammaCall);
+      }
+      if (FitGammaPut != 0D) {
+        output.WriteRawTag(145, 2);
+        output.WriteDouble(FitGammaPut);
+      }
+      if (FitCharmCall != 0D) {
+        output.WriteRawTag(153, 2);
+        output.WriteDouble(FitCharmCall);
+      }
+      if (FitCharmPut != 0D) {
+        output.WriteRawTag(161, 2);
+        output.WriteDouble(FitCharmPut);
+      }
+      if (FitVannaCall != 0D) {
+        output.WriteRawTag(169, 2);
+        output.WriteDouble(FitVannaCall);
+      }
+      if (FitVannaPut != 0D) {
+        output.WriteRawTag(177, 2);
+        output.WriteDouble(FitVannaPut);
+      }
+      if (FitSkewDeltaCall != 0D) {
+        output.WriteRawTag(185, 2);
+        output.WriteDouble(FitSkewDeltaCall);
+      }
+      if (FitSkewDeltaPut != 0D) {
+        output.WriteRawTag(193, 2);
+        output.WriteDouble(FitSkewDeltaPut);
+      }
+      if (FitSkewGammaCall != 0D) {
+        output.WriteRawTag(201, 2);
+        output.WriteDouble(FitSkewGammaCall);
+      }
+      if (FitSkewGammaPut != 0D) {
+        output.WriteRawTag(209, 2);
+        output.WriteDouble(FitSkewGammaPut);
+      }
+      if (FitThetaCall != 0D) {
+        output.WriteRawTag(217, 2);
+        output.WriteDouble(FitThetaCall);
+      }
+      if (FitThetaPut != 0D) {
+        output.WriteRawTag(225, 2);
+        output.WriteDouble(FitThetaPut);
+      }
+      if (FitVolThetaCall != 0D) {
+        output.WriteRawTag(233, 2);
+        output.WriteDouble(FitVolThetaCall);
+      }
+      if (FitVolThetaPut != 0D) {
+        output.WriteRawTag(241, 2);
+        output.WriteDouble(FitVolThetaPut);
+      }
+      if (ProbabilityItmCall != 0D) {
+        output.WriteRawTag(249, 2);
+        output.WriteDouble(ProbabilityItmCall);
+      }
+      if (ProbabilityItmPut != 0D) {
+        output.WriteRawTag(129, 3);
+        output.WriteDouble(ProbabilityItmPut);
+      }
+      if (ImpliedPdf != 0D) {
+        output.WriteRawTag(137, 3);
+        output.WriteDouble(ImpliedPdf);
+      }
+      if (VcrBase != 0D) {
+        output.WriteRawTag(145, 3);
+        output.WriteDouble(VcrBase);
+      }
+      if (VcrSlopeMultiplier != 0D) {
+        output.WriteRawTag(153, 3);
+        output.WriteDouble(VcrSlopeMultiplier);
+      }
+      if (VcrTotal != 0D) {
+        output.WriteRawTag(161, 3);
+        output.WriteDouble(VcrTotal);
+      }
+      if (AtmVol != 0D) {
+        output.WriteRawTag(169, 3);
+        output.WriteDouble(AtmVol);
+      }
+      if (AtmVolDlogstrike != 0D) {
+        output.WriteRawTag(177, 3);
+        output.WriteDouble(AtmVolDlogstrike);
+      }
+      if (VolDlogstrike != 0D) {
+        output.WriteRawTag(185, 3);
+        output.WriteDouble(VolDlogstrike);
+      }
+      if (VolDlogstrike2 != 0D) {
+        output.WriteRawTag(193, 3);
+        output.WriteDouble(VolDlogstrike2);
+      }
+      if (VolDlogforward != 0D) {
+        output.WriteRawTag(201, 3);
+        output.WriteDouble(VolDlogforward);
+      }
+      if (VolDlogforward2 != 0D) {
+        output.WriteRawTag(209, 3);
+        output.WriteDouble(VolDlogforward2);
+      }
+      if (Logmoneyness != 0D) {
+        output.WriteRawTag(217, 3);
+        output.WriteDouble(Logmoneyness);
+      }
       if (Underlying.Length != 0) {
-        output.WriteRawTag(234, 1);
+        output.WriteRawTag(226, 3);
         output.WriteString(Underlying);
       }
       if (_unknownFields != null) {
@@ -787,40 +1399,164 @@ namespace Kohinoor.Protos {
         output.WriteRawTag(161, 1);
         output.WriteDouble(Vol);
       }
-      if (Z != 0D) {
+      if (D0 != 0D) {
         output.WriteRawTag(169, 1);
-        output.WriteDouble(Z);
+        output.WriteDouble(D0);
       }
-      if (Vega != 0D) {
+      if (Tte != 0D) {
         output.WriteRawTag(177, 1);
-        output.WriteDouble(Vega);
+        output.WriteDouble(Tte);
       }
-      if (OomSpread != 0D) {
+      if (FitNormVol != 0D) {
         output.WriteRawTag(185, 1);
-        output.WriteDouble(OomSpread);
+        output.WriteDouble(FitNormVol);
       }
       if (FitVol != 0D) {
         output.WriteRawTag(193, 1);
         output.WriteDouble(FitVol);
       }
-      if (FitPriceCall != 0D) {
+      if (FitNormVolDlogstrike != 0D) {
         output.WriteRawTag(201, 1);
+        output.WriteDouble(FitNormVolDlogstrike);
+      }
+      if (FitNormVolDlogstrike2 != 0D) {
+        output.WriteRawTag(209, 1);
+        output.WriteDouble(FitNormVolDlogstrike2);
+      }
+      if (FitPriceCall != 0D) {
+        output.WriteRawTag(217, 1);
         output.WriteDouble(FitPriceCall);
       }
       if (FitPricePut != 0D) {
-        output.WriteRawTag(209, 1);
+        output.WriteRawTag(225, 1);
         output.WriteDouble(FitPricePut);
       }
       if (FitDeltaCall != 0D) {
-        output.WriteRawTag(217, 1);
+        output.WriteRawTag(233, 1);
         output.WriteDouble(FitDeltaCall);
       }
       if (FitDeltaPut != 0D) {
-        output.WriteRawTag(225, 1);
+        output.WriteRawTag(241, 1);
         output.WriteDouble(FitDeltaPut);
       }
+      if (FitVegaCall != 0D) {
+        output.WriteRawTag(249, 1);
+        output.WriteDouble(FitVegaCall);
+      }
+      if (FitVegaPut != 0D) {
+        output.WriteRawTag(129, 2);
+        output.WriteDouble(FitVegaPut);
+      }
+      if (FitGammaCall != 0D) {
+        output.WriteRawTag(137, 2);
+        output.WriteDouble(FitGammaCall);
+      }
+      if (FitGammaPut != 0D) {
+        output.WriteRawTag(145, 2);
+        output.WriteDouble(FitGammaPut);
+      }
+      if (FitCharmCall != 0D) {
+        output.WriteRawTag(153, 2);
+        output.WriteDouble(FitCharmCall);
+      }
+      if (FitCharmPut != 0D) {
+        output.WriteRawTag(161, 2);
+        output.WriteDouble(FitCharmPut);
+      }
+      if (FitVannaCall != 0D) {
+        output.WriteRawTag(169, 2);
+        output.WriteDouble(FitVannaCall);
+      }
+      if (FitVannaPut != 0D) {
+        output.WriteRawTag(177, 2);
+        output.WriteDouble(FitVannaPut);
+      }
+      if (FitSkewDeltaCall != 0D) {
+        output.WriteRawTag(185, 2);
+        output.WriteDouble(FitSkewDeltaCall);
+      }
+      if (FitSkewDeltaPut != 0D) {
+        output.WriteRawTag(193, 2);
+        output.WriteDouble(FitSkewDeltaPut);
+      }
+      if (FitSkewGammaCall != 0D) {
+        output.WriteRawTag(201, 2);
+        output.WriteDouble(FitSkewGammaCall);
+      }
+      if (FitSkewGammaPut != 0D) {
+        output.WriteRawTag(209, 2);
+        output.WriteDouble(FitSkewGammaPut);
+      }
+      if (FitThetaCall != 0D) {
+        output.WriteRawTag(217, 2);
+        output.WriteDouble(FitThetaCall);
+      }
+      if (FitThetaPut != 0D) {
+        output.WriteRawTag(225, 2);
+        output.WriteDouble(FitThetaPut);
+      }
+      if (FitVolThetaCall != 0D) {
+        output.WriteRawTag(233, 2);
+        output.WriteDouble(FitVolThetaCall);
+      }
+      if (FitVolThetaPut != 0D) {
+        output.WriteRawTag(241, 2);
+        output.WriteDouble(FitVolThetaPut);
+      }
+      if (ProbabilityItmCall != 0D) {
+        output.WriteRawTag(249, 2);
+        output.WriteDouble(ProbabilityItmCall);
+      }
+      if (ProbabilityItmPut != 0D) {
+        output.WriteRawTag(129, 3);
+        output.WriteDouble(ProbabilityItmPut);
+      }
+      if (ImpliedPdf != 0D) {
+        output.WriteRawTag(137, 3);
+        output.WriteDouble(ImpliedPdf);
+      }
+      if (VcrBase != 0D) {
+        output.WriteRawTag(145, 3);
+        output.WriteDouble(VcrBase);
+      }
+      if (VcrSlopeMultiplier != 0D) {
+        output.WriteRawTag(153, 3);
+        output.WriteDouble(VcrSlopeMultiplier);
+      }
+      if (VcrTotal != 0D) {
+        output.WriteRawTag(161, 3);
+        output.WriteDouble(VcrTotal);
+      }
+      if (AtmVol != 0D) {
+        output.WriteRawTag(169, 3);
+        output.WriteDouble(AtmVol);
+      }
+      if (AtmVolDlogstrike != 0D) {
+        output.WriteRawTag(177, 3);
+        output.WriteDouble(AtmVolDlogstrike);
+      }
+      if (VolDlogstrike != 0D) {
+        output.WriteRawTag(185, 3);
+        output.WriteDouble(VolDlogstrike);
+      }
+      if (VolDlogstrike2 != 0D) {
+        output.WriteRawTag(193, 3);
+        output.WriteDouble(VolDlogstrike2);
+      }
+      if (VolDlogforward != 0D) {
+        output.WriteRawTag(201, 3);
+        output.WriteDouble(VolDlogforward);
+      }
+      if (VolDlogforward2 != 0D) {
+        output.WriteRawTag(209, 3);
+        output.WriteDouble(VolDlogforward2);
+      }
+      if (Logmoneyness != 0D) {
+        output.WriteRawTag(217, 3);
+        output.WriteDouble(Logmoneyness);
+      }
       if (Underlying.Length != 0) {
-        output.WriteRawTag(234, 1);
+        output.WriteRawTag(226, 3);
         output.WriteString(Underlying);
       }
       if (_unknownFields != null) {
@@ -893,16 +1629,22 @@ namespace Kohinoor.Protos {
       if (Vol != 0D) {
         size += 2 + 8;
       }
-      if (Z != 0D) {
+      if (D0 != 0D) {
         size += 2 + 8;
       }
-      if (Vega != 0D) {
+      if (Tte != 0D) {
         size += 2 + 8;
       }
-      if (OomSpread != 0D) {
+      if (FitNormVol != 0D) {
         size += 2 + 8;
       }
       if (FitVol != 0D) {
+        size += 2 + 8;
+      }
+      if (FitNormVolDlogstrike != 0D) {
+        size += 2 + 8;
+      }
+      if (FitNormVolDlogstrike2 != 0D) {
         size += 2 + 8;
       }
       if (FitPriceCall != 0D) {
@@ -915,6 +1657,93 @@ namespace Kohinoor.Protos {
         size += 2 + 8;
       }
       if (FitDeltaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVegaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVegaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitGammaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitGammaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitCharmCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitCharmPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVannaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVannaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitSkewDeltaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitSkewDeltaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitSkewGammaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitSkewGammaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitThetaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitThetaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVolThetaCall != 0D) {
+        size += 2 + 8;
+      }
+      if (FitVolThetaPut != 0D) {
+        size += 2 + 8;
+      }
+      if (ProbabilityItmCall != 0D) {
+        size += 2 + 8;
+      }
+      if (ProbabilityItmPut != 0D) {
+        size += 2 + 8;
+      }
+      if (ImpliedPdf != 0D) {
+        size += 2 + 8;
+      }
+      if (VcrBase != 0D) {
+        size += 2 + 8;
+      }
+      if (VcrSlopeMultiplier != 0D) {
+        size += 2 + 8;
+      }
+      if (VcrTotal != 0D) {
+        size += 2 + 8;
+      }
+      if (AtmVol != 0D) {
+        size += 2 + 8;
+      }
+      if (AtmVolDlogstrike != 0D) {
+        size += 2 + 8;
+      }
+      if (VolDlogstrike != 0D) {
+        size += 2 + 8;
+      }
+      if (VolDlogstrike2 != 0D) {
+        size += 2 + 8;
+      }
+      if (VolDlogforward != 0D) {
+        size += 2 + 8;
+      }
+      if (VolDlogforward2 != 0D) {
+        size += 2 + 8;
+      }
+      if (Logmoneyness != 0D) {
         size += 2 + 8;
       }
       if (Underlying.Length != 0) {
@@ -992,17 +1821,23 @@ namespace Kohinoor.Protos {
       if (other.Vol != 0D) {
         Vol = other.Vol;
       }
-      if (other.Z != 0D) {
-        Z = other.Z;
+      if (other.D0 != 0D) {
+        D0 = other.D0;
       }
-      if (other.Vega != 0D) {
-        Vega = other.Vega;
+      if (other.Tte != 0D) {
+        Tte = other.Tte;
       }
-      if (other.OomSpread != 0D) {
-        OomSpread = other.OomSpread;
+      if (other.FitNormVol != 0D) {
+        FitNormVol = other.FitNormVol;
       }
       if (other.FitVol != 0D) {
         FitVol = other.FitVol;
+      }
+      if (other.FitNormVolDlogstrike != 0D) {
+        FitNormVolDlogstrike = other.FitNormVolDlogstrike;
+      }
+      if (other.FitNormVolDlogstrike2 != 0D) {
+        FitNormVolDlogstrike2 = other.FitNormVolDlogstrike2;
       }
       if (other.FitPriceCall != 0D) {
         FitPriceCall = other.FitPriceCall;
@@ -1015,6 +1850,93 @@ namespace Kohinoor.Protos {
       }
       if (other.FitDeltaPut != 0D) {
         FitDeltaPut = other.FitDeltaPut;
+      }
+      if (other.FitVegaCall != 0D) {
+        FitVegaCall = other.FitVegaCall;
+      }
+      if (other.FitVegaPut != 0D) {
+        FitVegaPut = other.FitVegaPut;
+      }
+      if (other.FitGammaCall != 0D) {
+        FitGammaCall = other.FitGammaCall;
+      }
+      if (other.FitGammaPut != 0D) {
+        FitGammaPut = other.FitGammaPut;
+      }
+      if (other.FitCharmCall != 0D) {
+        FitCharmCall = other.FitCharmCall;
+      }
+      if (other.FitCharmPut != 0D) {
+        FitCharmPut = other.FitCharmPut;
+      }
+      if (other.FitVannaCall != 0D) {
+        FitVannaCall = other.FitVannaCall;
+      }
+      if (other.FitVannaPut != 0D) {
+        FitVannaPut = other.FitVannaPut;
+      }
+      if (other.FitSkewDeltaCall != 0D) {
+        FitSkewDeltaCall = other.FitSkewDeltaCall;
+      }
+      if (other.FitSkewDeltaPut != 0D) {
+        FitSkewDeltaPut = other.FitSkewDeltaPut;
+      }
+      if (other.FitSkewGammaCall != 0D) {
+        FitSkewGammaCall = other.FitSkewGammaCall;
+      }
+      if (other.FitSkewGammaPut != 0D) {
+        FitSkewGammaPut = other.FitSkewGammaPut;
+      }
+      if (other.FitThetaCall != 0D) {
+        FitThetaCall = other.FitThetaCall;
+      }
+      if (other.FitThetaPut != 0D) {
+        FitThetaPut = other.FitThetaPut;
+      }
+      if (other.FitVolThetaCall != 0D) {
+        FitVolThetaCall = other.FitVolThetaCall;
+      }
+      if (other.FitVolThetaPut != 0D) {
+        FitVolThetaPut = other.FitVolThetaPut;
+      }
+      if (other.ProbabilityItmCall != 0D) {
+        ProbabilityItmCall = other.ProbabilityItmCall;
+      }
+      if (other.ProbabilityItmPut != 0D) {
+        ProbabilityItmPut = other.ProbabilityItmPut;
+      }
+      if (other.ImpliedPdf != 0D) {
+        ImpliedPdf = other.ImpliedPdf;
+      }
+      if (other.VcrBase != 0D) {
+        VcrBase = other.VcrBase;
+      }
+      if (other.VcrSlopeMultiplier != 0D) {
+        VcrSlopeMultiplier = other.VcrSlopeMultiplier;
+      }
+      if (other.VcrTotal != 0D) {
+        VcrTotal = other.VcrTotal;
+      }
+      if (other.AtmVol != 0D) {
+        AtmVol = other.AtmVol;
+      }
+      if (other.AtmVolDlogstrike != 0D) {
+        AtmVolDlogstrike = other.AtmVolDlogstrike;
+      }
+      if (other.VolDlogstrike != 0D) {
+        VolDlogstrike = other.VolDlogstrike;
+      }
+      if (other.VolDlogstrike2 != 0D) {
+        VolDlogstrike2 = other.VolDlogstrike2;
+      }
+      if (other.VolDlogforward != 0D) {
+        VolDlogforward = other.VolDlogforward;
+      }
+      if (other.VolDlogforward2 != 0D) {
+        VolDlogforward2 = other.VolDlogforward2;
+      }
+      if (other.Logmoneyness != 0D) {
+        Logmoneyness = other.Logmoneyness;
       }
       if (other.Underlying.Length != 0) {
         Underlying = other.Underlying;
@@ -1119,15 +2041,15 @@ namespace Kohinoor.Protos {
             break;
           }
           case 169: {
-            Z = input.ReadDouble();
+            D0 = input.ReadDouble();
             break;
           }
           case 177: {
-            Vega = input.ReadDouble();
+            Tte = input.ReadDouble();
             break;
           }
           case 185: {
-            OomSpread = input.ReadDouble();
+            FitNormVol = input.ReadDouble();
             break;
           }
           case 193: {
@@ -1135,22 +2057,146 @@ namespace Kohinoor.Protos {
             break;
           }
           case 201: {
-            FitPriceCall = input.ReadDouble();
+            FitNormVolDlogstrike = input.ReadDouble();
             break;
           }
           case 209: {
-            FitPricePut = input.ReadDouble();
+            FitNormVolDlogstrike2 = input.ReadDouble();
             break;
           }
           case 217: {
-            FitDeltaCall = input.ReadDouble();
+            FitPriceCall = input.ReadDouble();
             break;
           }
           case 225: {
+            FitPricePut = input.ReadDouble();
+            break;
+          }
+          case 233: {
+            FitDeltaCall = input.ReadDouble();
+            break;
+          }
+          case 241: {
             FitDeltaPut = input.ReadDouble();
             break;
           }
-          case 234: {
+          case 249: {
+            FitVegaCall = input.ReadDouble();
+            break;
+          }
+          case 257: {
+            FitVegaPut = input.ReadDouble();
+            break;
+          }
+          case 265: {
+            FitGammaCall = input.ReadDouble();
+            break;
+          }
+          case 273: {
+            FitGammaPut = input.ReadDouble();
+            break;
+          }
+          case 281: {
+            FitCharmCall = input.ReadDouble();
+            break;
+          }
+          case 289: {
+            FitCharmPut = input.ReadDouble();
+            break;
+          }
+          case 297: {
+            FitVannaCall = input.ReadDouble();
+            break;
+          }
+          case 305: {
+            FitVannaPut = input.ReadDouble();
+            break;
+          }
+          case 313: {
+            FitSkewDeltaCall = input.ReadDouble();
+            break;
+          }
+          case 321: {
+            FitSkewDeltaPut = input.ReadDouble();
+            break;
+          }
+          case 329: {
+            FitSkewGammaCall = input.ReadDouble();
+            break;
+          }
+          case 337: {
+            FitSkewGammaPut = input.ReadDouble();
+            break;
+          }
+          case 345: {
+            FitThetaCall = input.ReadDouble();
+            break;
+          }
+          case 353: {
+            FitThetaPut = input.ReadDouble();
+            break;
+          }
+          case 361: {
+            FitVolThetaCall = input.ReadDouble();
+            break;
+          }
+          case 369: {
+            FitVolThetaPut = input.ReadDouble();
+            break;
+          }
+          case 377: {
+            ProbabilityItmCall = input.ReadDouble();
+            break;
+          }
+          case 385: {
+            ProbabilityItmPut = input.ReadDouble();
+            break;
+          }
+          case 393: {
+            ImpliedPdf = input.ReadDouble();
+            break;
+          }
+          case 401: {
+            VcrBase = input.ReadDouble();
+            break;
+          }
+          case 409: {
+            VcrSlopeMultiplier = input.ReadDouble();
+            break;
+          }
+          case 417: {
+            VcrTotal = input.ReadDouble();
+            break;
+          }
+          case 425: {
+            AtmVol = input.ReadDouble();
+            break;
+          }
+          case 433: {
+            AtmVolDlogstrike = input.ReadDouble();
+            break;
+          }
+          case 441: {
+            VolDlogstrike = input.ReadDouble();
+            break;
+          }
+          case 449: {
+            VolDlogstrike2 = input.ReadDouble();
+            break;
+          }
+          case 457: {
+            VolDlogforward = input.ReadDouble();
+            break;
+          }
+          case 465: {
+            VolDlogforward2 = input.ReadDouble();
+            break;
+          }
+          case 473: {
+            Logmoneyness = input.ReadDouble();
+            break;
+          }
+          case 482: {
             Underlying = input.ReadString();
             break;
           }
@@ -1254,15 +2300,15 @@ namespace Kohinoor.Protos {
             break;
           }
           case 169: {
-            Z = input.ReadDouble();
+            D0 = input.ReadDouble();
             break;
           }
           case 177: {
-            Vega = input.ReadDouble();
+            Tte = input.ReadDouble();
             break;
           }
           case 185: {
-            OomSpread = input.ReadDouble();
+            FitNormVol = input.ReadDouble();
             break;
           }
           case 193: {
@@ -1270,22 +2316,146 @@ namespace Kohinoor.Protos {
             break;
           }
           case 201: {
-            FitPriceCall = input.ReadDouble();
+            FitNormVolDlogstrike = input.ReadDouble();
             break;
           }
           case 209: {
-            FitPricePut = input.ReadDouble();
+            FitNormVolDlogstrike2 = input.ReadDouble();
             break;
           }
           case 217: {
-            FitDeltaCall = input.ReadDouble();
+            FitPriceCall = input.ReadDouble();
             break;
           }
           case 225: {
+            FitPricePut = input.ReadDouble();
+            break;
+          }
+          case 233: {
+            FitDeltaCall = input.ReadDouble();
+            break;
+          }
+          case 241: {
             FitDeltaPut = input.ReadDouble();
             break;
           }
-          case 234: {
+          case 249: {
+            FitVegaCall = input.ReadDouble();
+            break;
+          }
+          case 257: {
+            FitVegaPut = input.ReadDouble();
+            break;
+          }
+          case 265: {
+            FitGammaCall = input.ReadDouble();
+            break;
+          }
+          case 273: {
+            FitGammaPut = input.ReadDouble();
+            break;
+          }
+          case 281: {
+            FitCharmCall = input.ReadDouble();
+            break;
+          }
+          case 289: {
+            FitCharmPut = input.ReadDouble();
+            break;
+          }
+          case 297: {
+            FitVannaCall = input.ReadDouble();
+            break;
+          }
+          case 305: {
+            FitVannaPut = input.ReadDouble();
+            break;
+          }
+          case 313: {
+            FitSkewDeltaCall = input.ReadDouble();
+            break;
+          }
+          case 321: {
+            FitSkewDeltaPut = input.ReadDouble();
+            break;
+          }
+          case 329: {
+            FitSkewGammaCall = input.ReadDouble();
+            break;
+          }
+          case 337: {
+            FitSkewGammaPut = input.ReadDouble();
+            break;
+          }
+          case 345: {
+            FitThetaCall = input.ReadDouble();
+            break;
+          }
+          case 353: {
+            FitThetaPut = input.ReadDouble();
+            break;
+          }
+          case 361: {
+            FitVolThetaCall = input.ReadDouble();
+            break;
+          }
+          case 369: {
+            FitVolThetaPut = input.ReadDouble();
+            break;
+          }
+          case 377: {
+            ProbabilityItmCall = input.ReadDouble();
+            break;
+          }
+          case 385: {
+            ProbabilityItmPut = input.ReadDouble();
+            break;
+          }
+          case 393: {
+            ImpliedPdf = input.ReadDouble();
+            break;
+          }
+          case 401: {
+            VcrBase = input.ReadDouble();
+            break;
+          }
+          case 409: {
+            VcrSlopeMultiplier = input.ReadDouble();
+            break;
+          }
+          case 417: {
+            VcrTotal = input.ReadDouble();
+            break;
+          }
+          case 425: {
+            AtmVol = input.ReadDouble();
+            break;
+          }
+          case 433: {
+            AtmVolDlogstrike = input.ReadDouble();
+            break;
+          }
+          case 441: {
+            VolDlogstrike = input.ReadDouble();
+            break;
+          }
+          case 449: {
+            VolDlogstrike2 = input.ReadDouble();
+            break;
+          }
+          case 457: {
+            VolDlogforward = input.ReadDouble();
+            break;
+          }
+          case 465: {
+            VolDlogforward2 = input.ReadDouble();
+            break;
+          }
+          case 473: {
+            Logmoneyness = input.ReadDouble();
+            break;
+          }
+          case 482: {
             Underlying = input.ReadString();
             break;
           }

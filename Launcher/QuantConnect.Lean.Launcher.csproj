@@ -59,6 +59,7 @@
     <ProjectReference Include="..\Messaging\QuantConnect.Messaging.csproj" />
     <ProjectReference Include="..\Queues\QuantConnect.Queues.csproj" />
     <ProjectReference Include="..\ToolBox\QuantConnect.ToolBox.csproj" />
+    <ProjectReference Include="../Kohinoor/Kohinoor.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE">

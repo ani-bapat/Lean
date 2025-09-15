@@ -20,6 +20,7 @@ COPY ./Lean/Launcher/bin/Debug/ /Lean/Launcher/bin/Debug/
 COPY ./Lean/Optimizer.Launcher/bin/Debug/ /Lean/Optimizer.Launcher/bin/Debug/
 COPY ./Lean/Report/bin/Debug/ /Lean/Report/bin/Debug/
 COPY ./Lean/DownloaderDataProvider/bin/Debug/ /Lean/DownloaderDataProvider/bin/Debug/
+COPY ./Lean/Kohinoor /Lean/Kohinoor
 
 # Install kohinoor
 COPY . /app/kohinoor
