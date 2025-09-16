@@ -94,7 +94,7 @@ namespace Kohinoor.Data
             // Your file naming convention
             var source = $"{config.Symbol.Value.ToLower()}_theobars_{date:yyyyMMdd}.csv";
             var dataPath = Path.Combine(Globals.DataFolder,
-                                        config.Symbol.Underlying.ToLower() + "_options",
+                                        config.Symbol.Underlying.Value.ToLower() + "_options",
                                         date.Year.ToString(),
                                         date.Month.ToString("00"),
                                         date.Day.ToString("00"),

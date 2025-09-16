@@ -8,6 +8,7 @@ using QuantConnect.Data.Market;
 using QuantConnect.Logging;
 using Kohinoor.Data;
 using Kohinoor.Protos;  // For OptionTheo
+using QuantConnect.Logging;
 
 namespace Kohinoor.DataSources
 {
@@ -68,6 +69,7 @@ namespace Kohinoor.DataSources
                     var theoBars = ConvertToTheoBars(optionTheo);
                     foreach (var theoBar in theoBars)
                     {
+                        Log.Debug($"Emitting TheoBar: {theoBar}");
                         OnTheoBarReceived?.Invoke(this, theoBar);
                     }
                     processedCount++;

@@ -10,6 +10,8 @@ using QuantConnect.Packets;
 using QuantConnect.Data.Consolidators;
 using Kohinoor.Data;
 using Kohinoor.DataSources;
+using QuantConnect.Logging;
+using QuantConnect.Configuration;
 
 namespace Kohinoor.DataFeeds 
 {
@@ -38,23 +40,36 @@ namespace Kohinoor.DataFeeds
 
         public OptionsDataQueueHandler()
         {
+            Console.WriteLine("OptionsDataQueueHandler: Constructor called");
+            Log.Trace("OptionsDataQueueHandler: Initializing...");
+            
             _subscriptions = new ConcurrentDictionary<Symbol, SubscriptionDataConfig>();
             _consolidators = new ConcurrentDictionary<Symbol, IDataConsolidator>();
             _dataQueues = new ConcurrentDictionary<Symbol, Queue<TheoBar>>();
             
-            // Initialize protobuf processor with your stream address
-            // _streamProcessor = new ProtobufStreamProcessor("10.28.9.17:19351");
-            _streamProcessor = new ProtobufStreamProcessor("localhost:50051");
-            _streamProcessor.OnTheoBarReceived += OnRawTheoBarReceived;
-        }
-        
+            var theo_server = Config.Get("theo-server", "localhost:50051");
+            Log.Trace($"OptionsDataQueueHandler: Connecting to {theo_server}");
+            
+            try
+            {
+                _streamProcessor = new ProtobufStreamProcessor(theo_server);
+                _streamProcessor.OnTheoBarReceived += OnRawTheoBarReceived;
+                Log.Trace("OptionsDataQueueHandler: Successfully initialized");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"OptionsDataQueueHandler: Failed to initialize - {ex.Message}");
+                throw;
+            }
+        }        
+
         public IEnumerator<BaseData> Subscribe(SubscriptionDataConfig dataConfig, 
                                             EventHandler newDataAvailableHandler)
         {
             _subscriptions.TryAdd(dataConfig.Symbol, dataConfig);
-            
-            // Create 10-second consolidator for this symbol
-            var consolidator = new TheoBarConsolidator(TimeSpan.FromSeconds(10));
+            Log.Debug($"Received data config {dataConfig}");
+            // Create consolidator for this symbol with the specified resolution
+            var consolidator = new TheoBarConsolidator(dataConfig.Resolution.ToTimeSpan());
             consolidator.DataConsolidated += (sender, consolidated) =>
             {
                 var queue = _dataQueues.GetOrAdd(dataConfig.Symbol, _ => new Queue<TheoBar>());
@@ -67,12 +82,13 @@ namespace Kohinoor.DataFeeds
             
             _consolidators.TryAdd(dataConfig.Symbol, consolidator);
             _dataQueues.TryAdd(dataConfig.Symbol, new Queue<TheoBar>());
-            
+            Log.Debug($"Consolidator {_consolidators}");
             return GetDataEnumerator(dataConfig.Symbol);
         }
         
         private void OnRawTheoBarReceived(object sender, TheoBar theoBar)
         {
+            Log.Debug($"Received RawTheoBar: {theoBar}");
             // Send raw data to appropriate consolidator
             if (_consolidators.TryGetValue(theoBar.Symbol, out var consolidator))
             {

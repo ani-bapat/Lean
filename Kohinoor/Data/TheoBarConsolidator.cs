@@ -26,8 +26,10 @@ namespace Kohinoor.Data
 
         public override void Update(TheoBar data)
         {
+            Log.Debug($"Received TheoBar: {data}");
             if (_workingBar == null)
             {
+                Log.Debug($"Starting new TheoBar: {data}");
                 StartNewBar(data);
                 return;
             }
