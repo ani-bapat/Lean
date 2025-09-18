@@ -6,6 +6,7 @@ using QuantConnect;
 using QuantConnect.Data;
 using QuantConnect.Data.Market;
 using QuantConnect.Securities;
+using QuantConnect.Configuration;
 
 namespace Kohinoor.Data
 {
@@ -81,7 +82,8 @@ namespace Kohinoor.Data
             if (isLiveMode)
             {
                 // Live mode: data comes from IDataQueueHandler (protobuf stream)
-                return new SubscriptionDataSource("", SubscriptionTransportMedium.Streaming);
+                var theo_server = Config.Get("theo-server", "localhost:50051");
+                return new SubscriptionDataSource(theo_server, SubscriptionTransportMedium.Streaming);
             }
 
             // Historical mode: read from CSV files or Iceberg once implemented

@@ -26,7 +26,8 @@ namespace Kohinoor.Data
 
         public override void Update(TheoBar data)
         {
-            Log.Debug($"Received TheoBar: {data}");
+            Log.Debug($"Received TheoBar: {data} at time {data.Time}");
+            Log.Debug($"Next bar in {data.Time + _period}");
             if (_workingBar == null)
             {
                 Log.Debug($"Starting new TheoBar: {data}");

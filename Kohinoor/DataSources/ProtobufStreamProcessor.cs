@@ -25,6 +25,7 @@ namespace Kohinoor.DataSources
 
         public void StartStreaming()
         {
+            Log.Trace("ProtobufStreamProcessor: Starting stream");
             _streamClient.StartStreaming();
         }
 
@@ -33,7 +34,6 @@ namespace Kohinoor.DataSources
             _messageQueue = new ConcurrentQueue<OptionTheo>();
             _cancellationTokenSource = new CancellationTokenSource();
             _streamClient = new TradingDataStreamClient(serverAddress);
-            _streamClient.StartStreaming();
             // Process queued messages every 500ms to maintain timing
             _processingTimer = new Timer(ProcessMessageBatch, null, 0, 500);
 
@@ -69,7 +69,7 @@ namespace Kohinoor.DataSources
                     var theoBars = ConvertToTheoBars(optionTheo);
                     foreach (var theoBar in theoBars)
                     {
-                        Log.Debug($"Emitting TheoBar: {theoBar}");
+                        // Log.Debug($"Emitting TheoBar: {theoBar}");
                         OnTheoBarReceived?.Invoke(this, theoBar);
                     }
                     processedCount++;
@@ -87,12 +87,14 @@ namespace Kohinoor.DataSources
             // Convert nanosecond epoch to DateTime
             var timestamp = DateTimeOffset.FromUnixTimeMilliseconds((long)(data.FrameworkTime / 1_000_000)).DateTime;
             var expiry = DateTimeOffset.FromUnixTimeMilliseconds((long)(data.Expiration / 1_000_000)).DateTime;
-            
+
             // Create CALL TheoBar
             var callSymbol = Symbol.CreateOption(data.Underlying, Market.USA, 
                                                 OptionStyle.European, OptionRight.Call, 
                                                 (decimal)data.Strike, expiry);
-            
+            // var callSymbol = QuantConnect.Symbol.CreateBase("TestSymbol1", Market.USA);
+            // var callSymbol = Symbol.Create("TestSymbol1", SecurityType.Base, Market.USA);
+
             var callBid = new Bar((decimal)data.BidPriceCall, (decimal)data.BidPriceCall, 
                                 (decimal)data.BidPriceCall, (decimal)data.BidPriceCall);
             var callAsk = new Bar((decimal)data.AskPriceCall, (decimal)data.AskPriceCall, 
@@ -118,12 +120,14 @@ namespace Kohinoor.DataSources
             );
             
             result.Add(callTheoBar);
-            
+
             // Create PUT TheoBar (similar structure)
             var putSymbol = Symbol.CreateOption(data.Underlying, Market.USA, 
                                             OptionStyle.European, OptionRight.Put, 
                                             (decimal)data.Strike, expiry);
-            
+            // var putSymbol = QuantConnect.Symbol.CreateBase("TheoBar", "TestSymbol2", Market.USA);
+            // var putSymbol = Symbol.Create("TestSymbol2", SecurityType.Base, Market.USA);
+
             var putBid = new Bar((decimal)data.BidPricePut, (decimal)data.BidPricePut, 
                                 (decimal)data.BidPricePut, (decimal)data.BidPricePut);
             var putAsk = new Bar((decimal)data.AskPricePut, (decimal)data.AskPricePut, 

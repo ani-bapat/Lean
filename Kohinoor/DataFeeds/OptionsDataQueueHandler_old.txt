@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
+using QuantConnect;
+using QuantConnect.Data;
+using QuantConnect.Data.Consolidators;
+using QuantConnect.Interfaces;
+using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Packets;
+using QuantConnect.Logging;
+using Kohinoor.Data;
+using Kohinoor.DataSources;
+using Kohinoor.Universe;
+using QuantConnect.Configuration;
+
+namespace Kohinoor.DataFeeds
+{
+    public class OptionsDataQueueHandler : IDataQueueHandler, IDisposable
+    {
+        private readonly OptionsUniverseDataFeed _universeFeed;
+        private readonly ConcurrentDictionary<Symbol, SubscriptionDataConfig> _subscriptions;
+        private readonly ConcurrentDictionary<Symbol, IDataConsolidator> _consolidators;
+        private readonly ConcurrentDictionary<Symbol, Queue<BaseData>> _dataQueues;
+        private readonly AutoResetEvent _newDataAvailable;
+        private readonly object _lock = new object();
+        private bool _isConnected;
+        private readonly ConcurrentDictionary<Symbol, Resolution> _symbolResolutions;
+        
+        public bool IsConnected => _isConnected;
+        
+        public OptionsDataQueueHandler()
+        {
+            Log.Trace("OptionsDataQueueHandler: Constructor called");
+            
+            _subscriptions = new ConcurrentDictionary<Symbol, SubscriptionDataConfig>();
+            _consolidators = new ConcurrentDictionary<Symbol, IDataConsolidator>();
+            _dataQueues = new ConcurrentDictionary<Symbol, Queue<BaseData>>();
+            _symbolResolutions = new ConcurrentDictionary<Symbol, Resolution>();
+            _newDataAvailable = new AutoResetEvent(false);
+            
+            var serverAddress = Config.Get("theo-server", "localhost:50051");
+            Log.Trace($"OptionsDataQueueHandler: Connecting to {serverAddress}");
+            
+            _universeFeed = new OptionsUniverseDataFeed(serverAddress);
+            _universeFeed.OnChainUpdate += HandleChainUpdate;
+            
+            _isConnected = true;
+            Log.Trace("OptionsDataQueueHandler: Successfully initialized");
+        }
+        
+        private void HandleChainUpdate(object sender, OptionsChainUpdate update)
+        {
+            Log.Trace($"Chain update for {update.Underlying}: {update.Contracts.Count} contracts");
+            
+            // Store the update for universe selection
+            var universeSymbol = Symbol.Create(update.Underlying, SecurityType.Base, Market.USA);
+            var queue = _dataQueues.GetOrAdd(universeSymbol, _ => new Queue<BaseData>());
+
+            // New consolidator if needed
+            if (!_consolidators.ContainsKey(update.TheoBar.Symbol))
+            {
+                Log.Trace($"Update received: {update.TheoBar.Symbol}, {update.Underlying}");
+                Log.Trace($"Symbol resolution keys: {string.Join(", ", _symbolResolutions.Keys)}");
+                var resolution = _symbolResolutions.TryGetValue(update.Underlying, out var res) ? res : Resolution.Minute;
+                Log.Trace($"Creating consolidator for {update.TheoBar.Symbol} at {resolution}");
+                var newConsolidator = new TheoBarConsolidator(resolution.ToTimeSpan());
+                newConsolidator.DataConsolidated += (sender, consolidated) =>
+                {
+                    var queue = _dataQueues.GetOrAdd(update.TheoBar.Symbol, _ => new Queue<BaseData>());
+                    lock (queue)
+                    {
+                        queue.Enqueue((TheoBar)consolidated);
+                    }
+                    _newDataAvailable.Set();
+                };
+                _consolidators[update.TheoBar.Symbol] = newConsolidator;
+            }
+
+            if (_consolidators.TryGetValue(update.TheoBar.Symbol, out var consolidator))
+                {
+                    Log.Trace($"Updating consolidator for {update.TheoBar.Symbol}");
+                    consolidator.Update(update.TheoBar);
+                }
+            lock (queue)
+            {
+                var universeData = new TheoBarUniverseSelectionData
+                {
+                    Time = update.UpdateTime,
+                    Symbol = universeSymbol,
+                    Contracts = update.Contracts,
+                    Underlying = update.Underlying
+                };
+                
+                queue.Enqueue(universeData);
+            }
+            
+            // Signal new data available
+            _newDataAvailable.Set();
+            
+            // Also queue the actual TheoBar
+            if (update.TheoBar != null)
+            {
+                var theoQueue = _dataQueues.GetOrAdd(update.TheoBar.Symbol, _ => new Queue<BaseData>());
+                lock (theoQueue)
+                {
+                    theoQueue.Enqueue(update.TheoBar);
+                }
+            }
+        }
+        
+        public IEnumerator<BaseData> Subscribe(SubscriptionDataConfig dataConfig, 
+                                              EventHandler newDataAvailableHandler)
+        {
+            Log.Trace($"Subscription data config details: {dataConfig}");
+            Log.Trace($"Subscribe: {dataConfig.Symbol.Value}, Type: {dataConfig.Type.Name}");
+            
+            _subscriptions.TryAdd(dataConfig.Symbol, dataConfig);
+            _dataQueues.TryAdd(dataConfig.Symbol, new Queue<BaseData>());
+            _symbolResolutions[dataConfig.Symbol] = dataConfig.Resolution; 
+            // Start streaming if not already started
+            _universeFeed.StartStreaming();
+            
+            // Return data enumerator
+            while (!_disposedValue)
+            {
+                var queue = _dataQueues[dataConfig.Symbol];
+                
+                lock (queue)
+                {
+                    while (queue.Count > 0)
+                    {
+                        var data = queue.Dequeue();
+                        newDataAvailableHandler?.Invoke(this, EventArgs.Empty);
+                        yield return data;
+                    }
+                }
+                
+                _newDataAvailable.WaitOne(100);
+            }
+        }
+        
+        public void Unsubscribe(SubscriptionDataConfig dataConfig)
+        {
+            Log.Trace($"Unsubscribe: {dataConfig.Symbol.Value}");
+            _subscriptions.TryRemove(dataConfig.Symbol, out _);
+            _dataQueues.TryRemove(dataConfig.Symbol, out _);
+        }
+        
+        public void SetJob(LiveNodePacket job)
+        {
+            Log.Trace("OptionsDataQueueHandler.SetJob called");
+            // Job configuration if needed
+        }
+        
+        private bool _disposedValue;
+        
+        public void Dispose()
+        {
+            if (!_disposedValue)
+            {
+                Log.Trace("OptionsDataQueueHandler.Dispose called");
+                _disposedValue = true;
+                _isConnected = false;
+                _consolidators.Clear();
+                _subscriptions.Clear();
+                _dataQueues.Clear();
+                _universeFeed?.Dispose();
+                _newDataAvailable?.Dispose();
+            }
+        }
+    }
+}
