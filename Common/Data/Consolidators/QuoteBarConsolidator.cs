@@ -29,8 +29,9 @@ namespace QuantConnect.Data.Consolidators
         /// Initializes a new instance of the <see cref="QuoteBarConsolidator"/> class
         /// </summary>
         /// <param name="period">The minimum span of time before emitting a consolidated bar</param>
-        public QuoteBarConsolidator(TimeSpan period)
-            : base(period)
+        /// <param name="startTime">Optionally the bar start time anchor to use</param>
+        public QuoteBarConsolidator(TimeSpan period, TimeSpan? startTime = null)
+            : base(period, startTime)
         {
         }
 
@@ -93,12 +94,6 @@ namespace QuantConnect.Data.Consolidators
                     var previous = Consolidated as QuoteBar;
                     workingBar.Update(0, previous.Bid?.Close ?? 0, previous.Ask?.Close ?? 0, 0, previous.LastBidSize, previous.LastAskSize);
                 }
-            }
-            else if (!IsTimeBased)
-            {
-                // we should only increment the period after the first data we get, else we would be accouting twice for the inital bars period
-                // because in the `if` above we are already providing the `data.Period` as argument. See test 'AggregatesNewCountQuoteBarProperly' which assert period
-                workingBar.Period += data.Period;
             }
 
             // update the bid and ask

@@ -58,7 +58,6 @@ using QuantConnect.Commands;
 using Newtonsoft.Json;
 using QuantConnect.Securities.Index;
 using QuantConnect.Api;
-using System.Threading.Tasks;
 
 namespace QuantConnect.Algorithm
 {
@@ -224,7 +223,7 @@ namespace QuantConnect.Algorithm
             UniverseSettings = new UniverseSettings(Resolution.Minute, Security.NullLeverage, true, false, TimeSpan.FromDays(1));
 
             // initialize our scheduler, this acts as a liason to the real time handler
-            Schedule = new ScheduleManager(Securities, TimeZone, MarketHoursDatabase);
+            Schedule = new ScheduleManager(this, Securities, TimeZone, MarketHoursDatabase);
 
             // initialize the trade builder
             SetTradeBuilder(new TradeBuilder(FillGroupingMethod.FillToFill, FillMatchingMethod.FIFO));
@@ -1008,6 +1007,43 @@ namespace QuantConnect.Algorithm
         }
 
         /// <summary>
+        /// Adds a security initializer, used to initialize/configure securities after creation.
+        /// The initializer will appended to the default initializer and others that might have been
+        /// added using this method, and will be applied to all universes and manually added securities.
+        /// </summary>
+        /// <param name="securityInitializer">The security initializer</param>
+        [DocumentationAttribute(AddingData)]
+        [DocumentationAttribute(Modeling)]
+        public void AddSecurityInitializer(ISecurityInitializer securityInitializer)
+        {
+            if (_locked)
+            {
+                throw new InvalidOperationException("AddSecurityInitializer() cannot be called after algorithm initialization. " +
+                    "When you use the AddSecurityInitializer() method it will apply to all universes and manually added securities.");
+            }
+
+            if (SecurityInitializer is CompositeSecurityInitializer compositeSecurityInitializer)
+            {
+                compositeSecurityInitializer.AddSecurityInitializer(securityInitializer);
+            }
+            else
+            {
+                SecurityInitializer = new CompositeSecurityInitializer(SecurityInitializer, securityInitializer);
+            }
+        }
+
+        /// <summary>
+        /// Adds a security initializer, used to initialize/configure securities after creation.
+        /// </summary>
+        /// <param name="securityInitializer">The security initializer</param>
+        [DocumentationAttribute(AddingData)]
+        [DocumentationAttribute(Modeling)]
+        public void AddSecurityInitializer(Action<Security> securityInitializer)
+        {
+            AddSecurityInitializer(new FuncSecurityInitializer(securityInitializer));
+        }
+
+        /// <summary>
         /// Sets the option chain provider, used to get the list of option contracts for an underlying symbol
         /// </summary>
         /// <param name="optionChainProvider">The option chain provider</param>
@@ -1329,10 +1365,34 @@ namespace QuantConnect.Algorithm
         public void SetBrokerageModel(IBrokerageModel model)
         {
             BrokerageModel = model;
+
             if (!_userSetSecurityInitializer)
             {
                 // purposefully use the direct setter vs Set method so we don't flip the switch :/
-                SecurityInitializer = new BrokerageModelSecurityInitializer(model, SecuritySeeder.Null);
+                var brokerageSecurityInitializer = new BrokerageModelSecurityInitializer(model, SecuritySeeder.Null);
+
+                if (SecurityInitializer is CompositeSecurityInitializer compositeSecurityInitializer)
+                {
+                    Debug($"Warning: SetBrokerageModel(): a custom security initializer has been added. Please call SetBrokerageModel() before calling AddSecurityInitializer().");
+
+                    // Set the brokerage security initializer as the first initializer to ensure
+                    // it runs before any user defined initializers
+                    var initializers = compositeSecurityInitializer.Initializers;
+                    var index = initializers.FindIndex((model) => model is BrokerageModelSecurityInitializer);
+                    if (index != -1)
+                    {
+                        initializers[index] = brokerageSecurityInitializer;
+                        SecurityInitializer = new CompositeSecurityInitializer(initializers.ToArray());
+                    }
+                    else
+                    {
+                        SecurityInitializer = new CompositeSecurityInitializer([brokerageSecurityInitializer, .. initializers]);
+                    }
+                }
+                else
+                {
+                    SecurityInitializer = brokerageSecurityInitializer;
+                }
 
                 // update models on securities added earlier (before SetBrokerageModel is called)
                 foreach (var kvp in Securities)
@@ -2014,7 +2074,7 @@ namespace QuantConnect.Algorithm
                         var continuousUniverseSettings = new UniverseSettings(settings)
                         {
                             ExtendedMarketHours = extendedMarketHours,
-                            DataMappingMode = dataMappingMode ?? UniverseSettings.GetUniverseNormalizationModeOrDefault(symbol.SecurityType, symbol.ID.Market),
+                            DataMappingMode = dataMappingMode ?? UniverseSettings.GetUniverseMappingModeOrDefault(symbol.SecurityType, symbol.ID.Market),
                             DataNormalizationMode = dataNormalizationMode ?? UniverseSettings.GetUniverseNormalizationModeOrDefault(symbol.SecurityType),
                             ContractDepthOffset = (int)contractOffset,
                             SubscriptionDataTypes = dataTypes,
@@ -2207,6 +2267,13 @@ namespace QuantConnect.Algorithm
             }
 
             AddUniverseOptions(symbol, optionFilter);
+
+            // Also add universe options for ContinuousContractUniverse to handle continuous futures
+            var continuousUniverseSymbol = ContinuousContractUniverse.CreateSymbol(symbol);
+            if (UniverseManager.ContainsKey(continuousUniverseSymbol))
+            {
+                AddUniverseOptions(continuousUniverseSymbol, optionFilter);
+            }
         }
 
         /// <summary>
@@ -2354,15 +2421,18 @@ namespace QuantConnect.Algorithm
                 underlyingConfigs = SubscriptionManager.SubscriptionDataConfigService
                     .GetSubscriptionDataConfigs(underlying);
 
-                var dataNormalizationMode = underlyingConfigs.DataNormalizationMode();
-                if (dataNormalizationMode != DataNormalizationMode.Raw && _locked)
+                if (symbol.SecurityType == SecurityType.Option)
                 {
-                    // We check the "locked" flag here because during initialization we need to load existing open orders and holdings from brokerages.
-                    // There is no data streaming yet, so it is safe to change the data normalization mode to Raw.
-                    throw new ArgumentException($"The underlying {underlying.SecurityType} asset ({underlying.Value}) is set to " +
-                        $"{dataNormalizationMode}, please change this to DataNormalizationMode.Raw with the " +
-                        "SetDataNormalization() method"
-                    );
+                    var dataNormalizationMode = underlyingConfigs.DataNormalizationMode();
+                    if (dataNormalizationMode != DataNormalizationMode.Raw && _locked)
+                    {
+                        // We check the "locked" flag here because during initialization we need to load existing open orders and holdings from brokerages.
+                        // There is no data streaming yet, so it is safe to change the data normalization mode to Raw.
+                        throw new ArgumentException($"The underlying {underlying.SecurityType} asset ({underlying.Value}) is set to " +
+                            $"{dataNormalizationMode}, please change this to DataNormalizationMode.Raw with the " +
+                            "SetDataNormalization() method"
+                        );
+                    }
                 }
             }
 
@@ -2487,11 +2557,12 @@ namespace QuantConnect.Algorithm
         /// open orders and then liquidate any existing holdings
         /// </summary>
         /// <param name="symbol">The symbol of the security to be removed</param>
+        /// <param name="tag">Optional tag to indicate the cause of removal</param>
         /// <remarks>Sugar syntax for <see cref="AddOptionContract"/></remarks>
         [DocumentationAttribute(AddingData)]
-        public bool RemoveOptionContract(Symbol symbol)
+        public bool RemoveOptionContract(Symbol symbol, string tag = null)
         {
-            return RemoveSecurity(symbol);
+            return RemoveSecurity(symbol, tag);
         }
 
         /// <summary>
@@ -2499,8 +2570,9 @@ namespace QuantConnect.Algorithm
         /// open orders and then liquidate any existing holdings
         /// </summary>
         /// <param name="symbol">The symbol of the security to be removed</param>
+        /// <param name="tag">Optional tag to indicate the cause of removal</param>
         [DocumentationAttribute(AddingData)]
-        public bool RemoveSecurity(Symbol symbol)
+        public bool RemoveSecurity(Symbol symbol, string tag = null)
         {
             Security security;
             if (!Securities.TryGetValue(symbol, out security))
@@ -2508,16 +2580,17 @@ namespace QuantConnect.Algorithm
                 return false;
             }
 
+            tag ??= "Removed";
             if (!IsWarmingUp)
             {
                 // cancel open orders
-                Transactions.CancelOpenOrders(security.Symbol);
+                Transactions.CancelOpenOrders(security.Symbol, tag);
             }
 
             // liquidate if invested
             if (security.Invested)
             {
-                Liquidate(security.Symbol);
+                Liquidate(symbol: security.Symbol, tag: tag);
             }
 
             // Mark security as not tradable
@@ -2536,7 +2609,7 @@ namespace QuantConnect.Algorithm
                         var underlying = Securities[symbol.Underlying];
                         if (!otherUniverses.Any(u => u.Members.ContainsKey(underlying.Symbol)))
                         {
-                            RemoveSecurity(underlying.Symbol);
+                            RemoveSecurity(underlying.Symbol, tag);
                         }
                     }
 
@@ -2546,7 +2619,7 @@ namespace QuantConnect.Algorithm
                     {
                         if (!otherUniverses.Any(u => u.Members.ContainsKey(child.Symbol)) && !child.Symbol.IsCanonical())
                         {
-                            RemoveSecurity(child.Symbol);
+                            RemoveSecurity(child.Symbol, tag);
                         }
                     }
 

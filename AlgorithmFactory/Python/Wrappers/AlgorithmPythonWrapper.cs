@@ -39,6 +39,7 @@ using QuantConnect.Data.Market;
 using QuantConnect.Algorithm.Framework.Alphas.Analysis;
 using QuantConnect.Commands;
 using QuantConnect.Algorithm.Framework.Portfolio.SignalExports;
+using QuantConnect.Algorithm.Framework.Execution;
 
 namespace QuantConnect.AlgorithmFactory.Python.Wrappers
 {
@@ -49,7 +50,7 @@ namespace QuantConnect.AlgorithmFactory.Python.Wrappers
     {
         private readonly dynamic _onData;
         private readonly dynamic _onMarginCall;
-        private readonly IAlgorithm _baseAlgorithm;
+        private readonly QCAlgorithm _baseAlgorithm;
 
         // QCAlgorithm methods that might be implemented in the python algorithm:
         // We keep them to avoid the BasePythonWrapper caching and eventual lookup overhead since these methods are called quite frequently
@@ -77,6 +78,11 @@ namespace QuantConnect.AlgorithmFactory.Python.Wrappers
         /// True if the underlying python algorithm implements "OnEndOfDay(symbol)"
         /// </summary>
         public bool IsOnEndOfDaySymbolImplemented { get; }
+
+        /// <summary>
+        /// The wrapped algorithm instance cast to <see cref="QCAlgorithm"/>
+        /// </summary>
+        public QCAlgorithm BaseAlgorithm => _baseAlgorithm;
 
         /// <summary>
         /// <see cref = "AlgorithmPythonWrapper"/> constructor.
@@ -570,6 +576,11 @@ namespace QuantConnect.AlgorithmFactory.Python.Wrappers
         public SignalExportManager SignalExport => ((QCAlgorithm)_baseAlgorithm).SignalExport;
 
         /// <summary>
+        /// The execution model
+        /// </summary>
+        public IExecutionModel Execution => ((QCAlgorithm)_baseAlgorithm).Execution;
+
+        /// <summary>
         /// Set a required SecurityType-symbol and resolution for algorithm
         /// </summary>
         /// <param name="securityType">SecurityType Enum: Equity, Commodity, FOREX or Future</param>
@@ -1002,7 +1013,8 @@ namespace QuantConnect.AlgorithmFactory.Python.Wrappers
         /// open orders and then liquidate any existing holdings
         /// </summary>
         /// <param name="symbol">The symbol of the security to be removed</param>
-        public bool RemoveSecurity(Symbol symbol) => _baseAlgorithm.RemoveSecurity(symbol);
+        /// <param name="tag">Optional tag to indicate the cause of removal</param>
+        public bool RemoveSecurity(Symbol symbol, string tag = null) => _baseAlgorithm.RemoveSecurity(symbol, tag);
 
         /// <summary>
         /// Set the algorithm Id for this backtest or live run. This can be used to identify the order and equity records.

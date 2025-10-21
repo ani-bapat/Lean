@@ -1,4 +1,4 @@
-﻿/*
+/*
  * QUANTCONNECT.COM - Democratizing Finance, Empowering Individuals.
  * Lean Algorithmic Trading Engine v2.0. Copyright 2014 QuantConnect Corporation.
  *
@@ -90,15 +90,12 @@ namespace QuantConnect.Orders
         /// <returns>The signed remaining quantity to be ordered</returns>
         public static decimal GetUnorderedQuantity(IAlgorithm algorithm, IPortfolioTarget target, Security security, bool accountForFees = false)
         {
-            var holdings = security.Holdings.Quantity;
-            var openOrderQuantity = algorithm.Transactions.GetOpenOrderTickets(target.Symbol)
-                .Aggregate(0m, (d, t) => d + t.Quantity - t.QuantityFilled);
-            var quantity = target.Quantity - holdings - openOrderQuantity;
+            var quantity = target.Quantity - algorithm.Transactions.GetProjectedHoldings(security).ProjectedQuantity;
 
             // Adjust the order quantity taking into account the fee's
             if (accountForFees && security.Symbol.SecurityType == SecurityType.Crypto && quantity > 0)
             {
-                var orderFee = Extensions.GetMarketOrderFees(security, quantity, algorithm.UtcTime, out _);
+                var orderFee = Extensions.GetMarketOrderFees(security, quantity, algorithm.UtcTime);
                 var baseCurrency = ((Crypto)security).BaseCurrency.Symbol;
                 if (baseCurrency == orderFee.Currency)
                 {

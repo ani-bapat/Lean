@@ -40,6 +40,8 @@ namespace QuantConnect.Lean.Engine.Setup
     /// </summary>
     public class BrokerageSetupHandler : ISetupHandler
     {
+        private bool _disposed;
+
         /// <summary>
         /// Max allocation limit configuration variable name
         /// </summary>
@@ -133,6 +135,7 @@ namespace QuantConnect.Lean.Engine.Setup
 
             // initialize the correct brokerage using the resolved factory
             var brokerage = _factory.CreateBrokerage(liveJob, uninitializedAlgorithm);
+            Composer.Instance.AddPart(brokerage);
 
             return brokerage;
         }
@@ -513,6 +516,11 @@ namespace QuantConnect.Lean.Engine.Setup
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             _factory?.DisposeSafely();
 
             if (_dataQueueHandlerBrokerage != null)

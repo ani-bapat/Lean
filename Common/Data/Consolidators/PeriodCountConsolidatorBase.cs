@@ -15,10 +15,10 @@
 */
 
 using System;
-using System.Runtime.CompilerServices;
-using QuantConnect.Data.Market;
 using Python.Runtime;
-using QuantConnect.Interfaces;
+using QuantConnect.Util;
+using QuantConnect.Data.Market;
+using System.Runtime.CompilerServices;
 
 namespace QuantConnect.Data.Consolidators
 {
@@ -44,7 +44,7 @@ namespace QuantConnect.Data.Consolidators
         //The number of pieces of data we've accumulated since our last emit
         private int _currentCount;
         //The working bar used for aggregating the data
-        private TConsolidated _workingBar;
+        protected TConsolidated _workingBar;
         //The last time we emitted a consolidated bar
         private DateTime? _lastEmit;
         private bool _validateTimeSpan;
@@ -59,8 +59,9 @@ namespace QuantConnect.Data.Consolidators
         /// Creates a consolidator to produce a new <typeparamref name="TConsolidated"/> instance representing the period
         /// </summary>
         /// <param name="period">The minimum span of time before emitting a consolidated bar</param>
-        protected PeriodCountConsolidatorBase(TimeSpan period)
-            : this(new TimeSpanPeriodSpecification(period))
+        /// <param name="startTime">Optionally the bar start time anchor to use</param>
+        protected PeriodCountConsolidatorBase(TimeSpan period, TimeSpan? startTime = null)
+            : this(new TimeSpanPeriodSpecification(period, startTime))
         {
             _period = _periodSpecification.Period;
         }
@@ -126,7 +127,7 @@ namespace QuantConnect.Data.Consolidators
         /// Updates this consolidator with the specified data. This method is
         /// responsible for raising the DataConsolidated event
         /// In time span mode, the bar range is closed on the left and open on the right: [T, T+TimeSpan).
-        /// For example, if time span is 1 minute, we have [10:00, 10:01): so data at 10:01 is not 
+        /// For example, if time span is 1 minute, we have [10:00, 10:01): so data at 10:01 is not
         /// included in the bar starting at 10:00.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when multiple symbols are being consolidated.</exception>
@@ -206,6 +207,12 @@ namespace QuantConnect.Data.Consolidators
                 if (data.Time >= _lastEmit)
                 {
                     AggregateBar(ref _workingBar, data);
+
+                    if (_maxCount.HasValue)
+                    {
+                        // When using count-based consolidation, set EndTime to the last input's EndTime
+                        _workingBar.EndTime = data.EndTime;
+                    }
                 }
             }
 
@@ -219,11 +226,6 @@ namespace QuantConnect.Data.Consolidators
                     if (_period.HasValue)
                     {
                         workingTradeBar.Period = _period.Value;
-                    }
-                    // since trade bar has period it aggregates this properly
-                    else if (!(data is TradeBar))
-                    {
-                        workingTradeBar.Period = data.Time - _lastEmit.Value;
                     }
                 }
 
@@ -351,6 +353,14 @@ namespace QuantConnect.Data.Consolidators
             base.OnDataConsolidated(e);
             DataConsolidated?.Invoke(this, e);
 
+            ResetWorkingBar();
+        }
+
+        /// <summary>
+        /// Resets the working bar
+        /// </summary>
+        protected virtual void ResetWorkingBar()
+        {
             _workingBar = null;
         }
 
@@ -362,7 +372,7 @@ namespace QuantConnect.Data.Consolidators
         private static IPeriodSpecification GetPeriodSpecificationFromPyObject(PyObject pyObject)
         {
             Func<DateTime, CalendarInfo> expiryFunc;
-            if (pyObject.TryConvertToDelegate(out expiryFunc))
+            if (pyObject.TrySafeAs(out expiryFunc))
             {
                 return new FuncPeriodSpecification(expiryFunc);
             }
@@ -412,17 +422,25 @@ namespace QuantConnect.Data.Consolidators
         /// </summary>
         private class TimeSpanPeriodSpecification : IPeriodSpecification
         {
+            public TimeSpan? StartTime { get; }
             public TimeSpan? Period { get; }
 
-            public TimeSpanPeriodSpecification(TimeSpan period)
+            public TimeSpanPeriodSpecification(TimeSpan period, TimeSpan? startTime = null)
             {
                 Period = period;
+                StartTime = startTime;
             }
 
-            public DateTime GetRoundedBarTime(DateTime time) =>
-                Period.Value > Time.OneDay
+            public DateTime GetRoundedBarTime(DateTime time)
+            {
+                if (StartTime.HasValue)
+                {
+                    return LeanData.GetConsolidatorStartTime(Period.Value, StartTime.Value, time);
+                }
+                return Period.Value > Time.OneDay
                     ? time // #4915 For periods larger than a day, don't use a rounding schedule.
                     : time.RoundDown(Period.Value);
+            }
         }
 
         /// <summary>
