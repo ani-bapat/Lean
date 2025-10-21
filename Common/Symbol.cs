@@ -20,6 +20,7 @@ using Python.Runtime;
 using Newtonsoft.Json;
 using QuantConnect.Securities;
 using QuantConnect.Python;
+using QuantConnect.Logging;
 
 namespace QuantConnect
 {
@@ -185,6 +186,7 @@ namespace QuantConnect
         {
             var underlyingSid = SecurityIdentifier.GenerateEquity(underlying, market, mapSymbol);
             var underlyingSymbol = new Symbol(underlyingSid, underlying);
+            Log.Trace($"Creating option: {underlying} {underlyingSid} {underlyingSymbol} {right} {strike} {expiry}");
 
             return CreateOption(underlyingSymbol, market, style, right, strike, expiry, alias);
         }
@@ -222,6 +224,7 @@ namespace QuantConnect
         public static Symbol CreateOption(Symbol underlyingSymbol, string targetOption, string market, OptionStyle style, OptionRight right, decimal strike, DateTime expiry, string alias = null)
         {
             var sid = SecurityIdentifier.GenerateOption(expiry, underlyingSymbol.ID, targetOption, market, strike, right, style);
+            Log.Trace($"Creating option for not matching underlying: {underlyingSymbol.ID} {sid} {right} {strike} {expiry}");
 
             return new Symbol(sid, alias ?? GetAlias(sid, underlyingSymbol), underlyingSymbol);
         }

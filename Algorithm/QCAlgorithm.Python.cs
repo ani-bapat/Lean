@@ -34,6 +34,7 @@ using QuantConnect.Interfaces;
 using QuantConnect.Orders;
 using QuantConnect.Commands;
 using QuantConnect.Api;
+using QuantConnect.Logging;
 
 namespace QuantConnect.Algorithm
 {
@@ -262,6 +263,7 @@ namespace QuantConnect.Algorithm
         /// <returns>The new <see cref="Security"/></returns>
         private Security AddDataImpl(Type dataType, Symbol symbol, Resolution? resolution, DateTimeZone timeZone, bool fillForward, decimal leverage)
         {
+            QuantConnect.Logging.Log.Debug($"Adding custom data: {dataType.Name}, Symbol: {symbol}, Resolution: {resolution}, TimeZone: {timeZone}, FillForward: {fillForward}, Leverage: {leverage}");
             var alias = symbol.ID.Symbol;
             SymbolCache.Set(alias, symbol);
 

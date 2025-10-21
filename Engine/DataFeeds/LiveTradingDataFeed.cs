@@ -183,6 +183,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
         {
             var result = new DataQueueHandlerManager(_algorithm.Settings);
             result.UnsupportedConfiguration += HandleUnsupportedConfigurationEvent;
+            Log.Debug($"DataQueueHandlerManager {result} created for algorithm {_algorithm.Id}");
             return result;
         }
 
@@ -324,6 +325,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
 
             // grab the relevant exchange hours
             var config = request.Universe.Configuration;
+            Log.Trace($"LiveTradingDataFeed.CreateUniverseSubscription(): Creating universe with config: {config}");
             var localEndTime = request.EndTimeUtc.ConvertFromUtc(request.Security.Exchange.TimeZone);
             var tzOffsetProvider = new TimeZoneOffsetProvider(request.Configuration.ExchangeTimeZone, request.StartTimeUtc, request.EndTimeUtc);
 

@@ -23,6 +23,7 @@ using QuantConnect.Data.Market;
 using QuantConnect.Interfaces;
 using QuantConnect.Util;
 using QuantConnect.Python;
+using QuantConnect.Logging;
 
 namespace QuantConnect.Data
 {
@@ -166,7 +167,7 @@ namespace QuantConnect.Data
         {
             // Find the right subscription and add the consolidator to it
             var subscriptions = Subscriptions.Where(x => x.Symbol == symbol).ToList();
-
+            Log.Debug($"Found the following subscriptions: {string.Join(", ", subscriptions.Select(s => $"{s.Type.Name} ({s.TickType})"))}");
             if (subscriptions.Count == 0)
             {
                 // If we made it here it is because we never found the symbol in the subscription list
@@ -176,6 +177,7 @@ namespace QuantConnect.Data
 
             if (consolidator.InputType.IsAbstract && tickType == null)
             {
+                Log.Debug($"No Tick Type specified for consolidator. Using default: {AvailableDataTypes[symbol.SecurityType].FirstOrDefault()}");
                 tickType = AvailableDataTypes[symbol.SecurityType].FirstOrDefault();
             }
 
@@ -372,11 +374,13 @@ namespace QuantConnect.Data
             // Ensure the consolidator can accept data of the subscription's type
             if (!consolidator.InputType.IsAssignableFrom(subscription.Type))
             {
+                Log.Debug($"Subscription {subscription.Symbol} is not valid for consolidator {consolidator.OutputType}");
                 return false;
             }
 
             if (subscription.Type == typeof(Tick))
             {
+                Log.Debug($"Checking Tick subscription {subscription.Symbol}");
                 if (desiredTickType == null)
                 {
                     if (!LeanData.IsCommonLeanDataType(consolidator.OutputType))

@@ -152,9 +152,11 @@ using Kohinoor.DataSources;
 using QuantConnect.Logging;
 using QuantConnect.Configuration;
 using System.IO;
+using System.ComponentModel.Composition;  // <-- Add this line
 
 namespace Kohinoor.DataFeeds
 {
+    [InheritedExport(typeof(IDataQueueHandler))]
     public class OptionsDataQueueHandler : IDataQueueHandler, IDisposable
     {
         private readonly ProtobufStreamProcessor _streamProcessor;
@@ -208,11 +210,26 @@ namespace Kohinoor.DataFeeds
                 _streamProcessor.StartStreaming();
             }
 
-            if (false)// && (dataConfig.Symbol.SecurityType == SecurityType.Option || dataConfig.Symbol.SecurityType == SecurityType.IndexOption) && dataConfig.Symbol.HasUnderlying)
+            if (dataConfig == null)
+            {
+                Log.Error("Subscribe called with null dataConfig");
+                throw new ArgumentNullException(nameof(dataConfig));
+            }
+
+            if (newDataAvailableHandler == null)
+            {
+                Log.Error("Subscribe called with null newDataAvailableHandler");
+                throw new ArgumentNullException(nameof(newDataAvailableHandler));
+            }
+
+            Log.Debug($"Subscribe called for {dataConfig.Symbol} with resolution {dataConfig.Resolution}");
+
+
+            if ((dataConfig.Symbol.SecurityType == SecurityType.Option || dataConfig.Symbol.SecurityType == SecurityType.IndexOption) && dataConfig.Symbol.HasUnderlying)
             {
                 // Universe subscription
                 Log.Debug($"Subscribing to options universe for underlying {dataConfig.Symbol.Underlying}");
-                
+
                 var universe = new KohinoorOptionUniverse()
                 {
                     Symbol = dataConfig.Symbol,
@@ -220,9 +237,9 @@ namespace Kohinoor.DataFeeds
                 };
                 var file_source = universe.GetSource(dataConfig, DateTime.Today, true);
                 Log.Debug($"Universe source: {file_source.Source}");
-                
+
                 _eventHandlers.TryAdd(dataConfig.Symbol.Value, newDataAvailableHandler);
-                
+
                 return GetKohinoorOptionUniverseEnumerator(dataConfig, universe);
             }
 
@@ -236,7 +253,7 @@ namespace Kohinoor.DataFeeds
 
                 Log.Debug($"Successfully subscribed to {dataConfig.Symbol} with {dataConfig.Symbol.Value} and string {dataConfig.Symbol.ToString()} and underlying {dataConfig.Symbol.Underlying.ToString()}, {dataConfig.Symbol.Underlying.Value}. Total subscriptions: {_contractSubscriptions.Count}");
 
-                return GetDataEnumerator(dataConfig.Symbol);
+                return GetDataEnumerator(dataConfig.Symbol.Value);
             }
         }
 
@@ -258,6 +275,7 @@ namespace Kohinoor.DataFeeds
                     // Notify that new data is available
                     if (_eventHandlers.TryGetValue(underlying_key, out var handler))
                     {
+                        Log.Debug($"Invoking event handler for {underlying_key}");
                         handler?.Invoke(this, EventArgs.Empty);
                     }
                 }
@@ -270,7 +288,7 @@ namespace Kohinoor.DataFeeds
             }
         }
 
-        private IEnumerator<BaseData> GetDataEnumerator(Symbol symbol)
+        private IEnumerator<BaseData> GetDataEnumerator(string symbol)
         {
             while (true)
             {
@@ -299,12 +317,12 @@ namespace Kohinoor.DataFeeds
                 {
                     using var stream = File.OpenRead(fileSource.Source);
                     using var reader = new StreamReader(stream);
-                    
+
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
                         if (string.IsNullOrWhiteSpace(line)) continue;
-                        
+
                         var data = universe.Reader(dataConfig, line, DateTime.Today, true);
                         if (data != null)
                         {
@@ -321,9 +339,9 @@ namespace Kohinoor.DataFeeds
         {
             Log.Debug($"Unsubscribing from {dataConfig.Symbol}");
 
-            _contractSubscriptions.TryRemove(dataConfig.Symbol, out _);
-            _eventHandlers.TryRemove(dataConfig.Symbol, out _);
-            _dataQueues.TryRemove(dataConfig.Symbol, out _);
+            _contractSubscriptions.TryRemove(dataConfig.Symbol.Value, out _);
+            _eventHandlers.TryRemove(dataConfig.Symbol.Value, out _);
+            _dataQueues.TryRemove(dataConfig.Symbol.Value, out _);
 
             Log.Debug($"Successfully unsubscribed from {dataConfig.Symbol}. Remaining subscriptions: {_contractSubscriptions.Count}");
         }

@@ -321,7 +321,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                 Log.Debug($"DataManager.AddSubscription(): Added {request.Configuration}." +
                     $" Start: {request.StartTimeUtc}. End: {request.EndTimeUtc}");
             }
-
+            Log.Trace($"DataFeedSubscriptions enumerated: {string.Join(", ", DataFeedSubscriptions.Select(s => s.Configuration.ToString()))}");
             return DataFeedSubscriptions.TryAdd(subscription);
         }
 
